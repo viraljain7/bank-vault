@@ -61,7 +61,7 @@ export function AuthLayout({ title, subtitle, children }: { title: string; subti
             sx={{
               width: 46,
               height: 46,
-              borderRadius: 3,
+              borderRadius: 1,
               display: 'grid',
               placeItems: 'center',
               bgcolor: 'rgba(255,255,255,0.16)',
@@ -89,7 +89,7 @@ export function AuthLayout({ title, subtitle, children }: { title: string; subti
                   sx={{
                     width: 34,
                     height: 34,
-                    borderRadius: 2,
+                    borderRadius: 1,
                     display: 'grid',
                     placeItems: 'center',
                     bgcolor: 'rgba(255,255,255,0.14)',
@@ -130,7 +130,7 @@ export function AuthLayout({ title, subtitle, children }: { title: string; subti
             sx={{
               width: 52,
               height: 52,
-              borderRadius: 3,
+              borderRadius: 1,
               display: 'grid',
               placeItems: 'center',
               background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%)',

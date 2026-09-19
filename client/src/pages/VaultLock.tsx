@@ -34,7 +34,7 @@ export function VaultLockScreen() {
 
   return (
     <Box sx={{ maxWidth: 420, mx: 'auto', py: 8, mt: { xs: 0, md: 6 } }} className="fade-in">
-      <Paper elevation={0} sx={{ p: 4, borderRadius: 4, textAlign: 'center' }}>
+      <Paper elevation={0} sx={{ p: 4, borderRadius: 1, textAlign: 'center' }}>
         <Box
           sx={{
             width: 72,

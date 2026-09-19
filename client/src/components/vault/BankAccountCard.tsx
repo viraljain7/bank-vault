@@ -22,14 +22,14 @@ export function BankAccountCard({
   const bankName = item.metadata.bankName ?? 'Bank account';
 
   return (
-    <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 3, height: '100%' }}>
+    <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 1, height: '100%' }}>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
         <Stack direction="row" spacing={1.5} alignItems="center" sx={{ flex: 1, minWidth: 0 }}>
           <Box
             sx={{
               width: 46,
               height: 46,
-              borderRadius: 2.5,
+              borderRadius: 1,
               display: 'grid',
               placeItems: 'center',
               background: 'linear-gradient(135deg, #EAF0FF 0%, #DCE6FD 100%)',
@@ -59,7 +59,7 @@ export function BankAccountCard({
           mt: 2,
           px: 1.75,
           py: 1.25,
-          borderRadius: 2,
+          borderRadius: 1,
           bgcolor: '#F8FAFC',
           border: '1px solid',
           borderColor: 'divider',

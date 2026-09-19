@@ -113,7 +113,7 @@ export function SecretField({
           gap: 1,
           border: '1px solid',
           borderColor: 'divider',
-          borderRadius: 2,
+          borderRadius: 1,
           px: 1.5,
           py: 1,
           bgcolor: 'background.paper',

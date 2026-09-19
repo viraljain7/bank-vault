@@ -86,7 +86,7 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                     gap: 1.5,
                     px: 1.5,
                     py: 1.05,
-                    borderRadius: 2,
+                    borderRadius: 1,
                     mb: 0.25,
                     position: 'relative',
                     color: isActive ? 'primary.main' : 'text.secondary',
@@ -100,7 +100,7 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                       transform: 'translateY(-50%)',
                       width: 3.5,
                       height: isActive ? 22 : 0,
-                      borderRadius: 4,
+                      borderRadius: 1,
                       bgcolor: 'primary.main',
                       transition: 'height 180ms ease',
                     },
@@ -153,7 +153,7 @@ export function UserCard() {
 
   return (
     <Box sx={{ px: 1.5, pb: 1.5 }}>
-      <Box sx={{ px: 1, py: 1, borderRadius: 2, bgcolor: '#F8FAFC' }}>
+      <Box sx={{ px: 1, py: 1, borderRadius: 1, bgcolor: '#F8FAFC' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Box sx={{ position: 'relative' }}>
             <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.main', fontSize: 14, fontWeight: 700 }}>
@@ -190,7 +190,7 @@ export function UserCard() {
             gap: 1,
             px: 1,
             py: 0.75,
-            borderRadius: 2,
+            borderRadius: 1,
             bgcolor: unlocked ? '#ECFDF3' : '#F1F5F9',
             color: unlocked ? '#15803D' : '#64748B',
           }}
@@ -245,7 +245,7 @@ export function Brand() {
         sx={{
           width: 42,
           height: 42,
-          borderRadius: 2.5,
+          borderRadius: 1,
           display: 'grid',
           placeItems: 'center',
           background: 'linear-gradient(135deg, #1D4ED8 0%, #2563EB 60%, #3B82F6 100%)',

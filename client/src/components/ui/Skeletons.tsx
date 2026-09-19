@@ -68,7 +68,7 @@ export function DetailSkeleton() {
 
 export function TableSkeleton({ rows = 6 }: { rows?: number }) {
   return (
-    <Paper elevation={0} sx={{ borderRadius: 3, p: 2 }}>
+    <Paper elevation={0} sx={{ borderRadius: 1, p: 2 }}>
       {Array.from({ length: rows }).map((_, i) => (
         <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.25 }}>
           <Skeleton variant="circular" width={36} height={36} />
@@ -76,7 +76,7 @@ export function TableSkeleton({ rows = 6 }: { rows?: number }) {
             <Skeleton width="45%" height={16} />
             <Skeleton width="30%" height={12} />
           </Box>
-          <Skeleton width={70} height={28} sx={{ borderRadius: 2 }} />
+          <Skeleton width={70} height={28} sx={{ borderRadius: 1 }} />
         </Box>
       ))}
     </Paper>
@@ -85,7 +85,7 @@ export function TableSkeleton({ rows = 6 }: { rows?: number }) {
 
 export function StatSkeleton() {
   return (
-    <Paper elevation={0} sx={{ p: 2.5, borderRadius: 3, flex: 1 }}>
+    <Paper elevation={0} sx={{ p: 2.5, borderRadius: 1, flex: 1 }}>
       <Skeleton width={80} height={14} />
       <Skeleton width={48} height={32} sx={{ mt: 1 }} />
     </Paper>

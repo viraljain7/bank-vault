@@ -124,7 +124,7 @@ body {
 .premium-card {
   background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #3b82f6 100%);
   color: #ffffff;
-  border-radius: 18px;
+  border-radius: 12px;
   position: relative;
   overflow: hidden;
 }

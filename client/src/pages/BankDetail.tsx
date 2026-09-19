@@ -45,7 +45,7 @@ export function BankDetailPage() {
   if (isLoading || !item) {
     return (
       <Box>
-        <PageHeader title="Bank Account" />
+        <PageHeader title="Bank Account" backTo="/banks" />
         <DetailSkeleton />
       </Box>
     );
@@ -56,6 +56,7 @@ export function BankDetailPage() {
       <PageHeader
         title={payload?.nickname || item.title || 'Bank account'}
         subtitle={payload?.bankName ?? item.metadata.bankName}
+        backTo="/banks"
         actions={
           <>
             <Button variant="outlined" startIcon={<Edit3 size={18} />} onClick={() => navigate(`/banks/${item._id}/edit`)}>
@@ -74,7 +75,7 @@ export function BankDetailPage() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 1.5,
-            borderRadius: 2,
+            borderRadius: 1,
             px: 1.75,
             py: 1.25,
             mb: 2.5,
@@ -89,7 +90,7 @@ export function BankDetailPage() {
             sx={{
               width: 32,
               height: 32,
-              borderRadius: 1.5,
+              borderRadius: 1,
               display: 'grid',
               placeItems: 'center',
               bgcolor: 'primary.main',
@@ -115,7 +116,7 @@ export function BankDetailPage() {
                 <Box component="span" sx={{ typography: 'body2', color: 'text.secondary' }}>
                   Notes
                 </Box>
-                <Paper variant="outlined" sx={{ mt: 0.5, p: 1.5, borderRadius: 2 }}>
+                <Paper variant="outlined" sx={{ mt: 0.5, p: 1.5, borderRadius: 1 }}>
                   {payload.notes}
                 </Paper>
               </Box>

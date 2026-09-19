@@ -36,13 +36,13 @@ function StatCard({
   hint?: string;
 }) {
   return (
-    <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 3, height: '100%' }}>
+    <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 1, height: '100%' }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box
           sx={{
             width: 40,
             height: 40,
-            borderRadius: 2,
+            borderRadius: 1,
             display: 'grid',
             placeItems: 'center',
             bgcolor: tone.soil,
@@ -152,7 +152,7 @@ export function DashboardPage() {
           mt: 2.5,
           p: 2,
           px: 2.5,
-          borderRadius: 3,
+          borderRadius: 1,
           display: 'flex',
           alignItems: 'center',
           gap: 2,
@@ -161,7 +161,7 @@ export function DashboardPage() {
           borderColor: '#DCE4F8',
         }}
       >
-        <Box sx={{ width: 40, height: 40, borderRadius: 2, display: 'grid', placeItems: 'center', bgcolor: 'primary.main', color: '#fff', flexShrink: 0 }}>
+        <Box sx={{ width: 40, height: 40, borderRadius: 1, display: 'grid', placeItems: 'center', bgcolor: 'primary.main', color: '#fff', flexShrink: 0 }}>
           <LockKeyhole size={20} />
         </Box>
         <Box sx={{ flex: 1 }}>
@@ -194,7 +194,7 @@ export function DashboardPage() {
       </Stack>
 
       {isEmpty || recent.length === 0 ? (
-        <Paper elevation={0} sx={{ borderRadius: 3, mt: 1 }}>
+        <Paper elevation={0} sx={{ borderRadius: 1, mt: 1 }}>
           <EmptyState
             icon={<LockKeyhole size={30} />}
             title="Your vault is ready"

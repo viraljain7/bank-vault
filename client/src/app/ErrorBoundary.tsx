@@ -30,7 +30,7 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <Box sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', bgcolor: 'background.default', p: 2 }}>
-          <Paper elevation={0} sx={{ p: 5, borderRadius: 4, maxWidth: 420, textAlign: 'center' }}>
+          <Paper elevation={0} sx={{ p: 5, borderRadius: 1, maxWidth: 420, textAlign: 'center' }}>
             <Box
               sx={{
                 width: 72,

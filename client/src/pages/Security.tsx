@@ -8,12 +8,15 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Grid,
+  IconButton,
+  InputAdornment,
   Paper,
   Stack,
   TextField,
   Typography,
 } from '@mui/material';
-import { Fingerprint, KeyRound, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, Fingerprint, KeyRound, ShieldCheck } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { useVault } from '../contexts/VaultContext';
 import { useToast } from '../contexts/ToastContext';
@@ -29,6 +32,7 @@ export function SecurityPage() {
   const [pinBusy, setPinBusy] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
   const [resetBusy, setResetBusy] = useState(false);
+  const [showPins, setShowPins] = useState(false);
   const [form, setForm] = useState<ChangePinInput>({ currentPin: '', pin: '', confirm: '' });
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -69,9 +73,9 @@ export function SecurityPage() {
     <Box className="fade-in" sx={{ maxWidth: 640 }}>
       <PageHeader title="Security" subtitle="Protect your vault" />
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 3, mb: 2.5 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <Box sx={{ width: 48, height: 48, borderRadius: 2, display: 'grid', placeItems: 'center', bgcolor: '#E7F6EC', color: '#15803D' }}>
+          <Box sx={{ width: 48, height: 48, borderRadius: 1, display: 'grid', placeItems: 'center', bgcolor: '#E7F6EC', color: '#15803D' }}>
             <ShieldCheck size={24} />
           </Box>
           <Box>
@@ -93,18 +97,18 @@ export function SecurityPage() {
         </Typography>
       </Paper>
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 3, mb: 2.5 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>
         <Typography variant="subtitle1" sx={{ mb: 1 }}>
           What is stored
         </Typography>
         <Stack spacing={1}>
-          <Alert severity="success" icon={<Fingerprint size={16} />} sx={{ borderRadius: 2 }}>
+          <Alert severity="success" icon={<Fingerprint size={16} />} sx={{ borderRadius: 1 }}>
             Account and card details are AES-256-GCM encrypted in your browser.
           </Alert>
-          <Alert severity="warning" icon={<ShieldCheck size={16} />} sx={{ borderRadius: 2 }}>
+          <Alert severity="warning" icon={<ShieldCheck size={16} />} sx={{ borderRadius: 1 }}>
             CVV/CVC, card PIN, OTP and 3DS codes are never stored — by design.
           </Alert>
-          <Alert severity="info" sx={{ borderRadius: 2 }}>
+          <Alert severity="info" sx={{ borderRadius: 1 }}>
             Audit activity contains actions and timestamps only; never secret values.
           </Alert>
         </Stack>
@@ -123,32 +127,74 @@ export function SecurityPage() {
         </Button>
       </Paper>
 
-      <Dialog open={pinDialog} onClose={() => setPinDialog(false)} maxWidth="xs" fullWidth>
+      <Dialog open={pinDialog} onClose={() => setPinDialog(false)} maxWidth="sm" fullWidth>
         <DialogTitle>Change unlock PIN</DialogTitle>
         <DialogContent>
-          <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField
-              label="Current PIN"
-              type="password"
-              value={form.currentPin}
-              onChange={(e) => setForm((f) => ({ ...f, currentPin: e.target.value }))}
-            />
-            <TextField
-              label="New PIN"
-              type="password"
-              value={form.pin}
-              onChange={(e) => setForm((f) => ({ ...f, pin: e.target.value }))}
-              helperText="At least 6 characters"
-            />
-            <TextField
-              label="Confirm new PIN"
-              type="password"
-              value={form.confirm}
-              onChange={(e) => setForm((f) => ({ ...f, confirm: e.target.value }))}
-              error={Boolean(formError)}
-              helperText={formError}
-            />
-          </Stack>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                label="Current PIN"
+                fullWidth
+                type={showPins ? 'text' : 'password'}
+                value={form.currentPin}
+                onChange={(e) => setForm((f) => ({ ...f, currentPin: e.target.value }))}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ color: 'text.secondary' }}>
+                      <Fingerprint size={18} />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setShowPins((v) => !v)}
+                        tabIndex={-1}
+                        aria-label={showPins ? 'Hide PIN' : 'Show PIN'}
+                      >
+                        {showPins ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                label="New PIN"
+                fullWidth
+                type={showPins ? 'text' : 'password'}
+                value={form.pin}
+                onChange={(e) => setForm((f) => ({ ...f, pin: e.target.value }))}
+                helperText="At least 6 characters"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ color: 'text.secondary' }}>
+                      <KeyRound size={18} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <TextField
+                label="Confirm new PIN"
+                fullWidth
+                type={showPins ? 'text' : 'password'}
+                value={form.confirm}
+                onChange={(e) => setForm((f) => ({ ...f, confirm: e.target.value }))}
+                error={Boolean(formError)}
+                helperText={formError}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start" sx={{ color: 'text.secondary' }}>
+                      <KeyRound size={18} />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setPinDialog(false)} disabled={pinBusy}>

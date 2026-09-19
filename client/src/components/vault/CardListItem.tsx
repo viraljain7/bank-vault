@@ -23,7 +23,7 @@ export function CardListItem({
   const payload = useDecrypt(item);
 
   return (
-    <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 3, height: '100%' }}>
+    <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 1, height: '100%' }}>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="subtitle1" noWrap>

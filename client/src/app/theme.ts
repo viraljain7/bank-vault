@@ -44,7 +44,7 @@ export const theme = createTheme({
     warning: { main: tokens.warning },
     info: { main: tokens.primary },
   },
-  shape: { borderRadius: 12 },
+  shape: { borderRadius: 8 },
   typography: {
     fontFamily: "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
     h1: { fontSize: '1.625rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2 },
@@ -65,7 +65,7 @@ export const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 10,
+          borderRadius: 8,
           paddingInline: 16,
           paddingBlock: 7,
           boxShadow: 'none',
@@ -81,13 +81,13 @@ export const theme = createTheme({
           '&:hover': { borderColor: '#CBD5E1', backgroundColor: '#F8FAFC' },
         },
         text: { '&:hover': { backgroundColor: '#F1F5F9' } },
-        sizeLarge: { paddingInline: 24, paddingBlock: 10, borderRadius: 12 },
+        sizeLarge: { paddingInline: 24, paddingBlock: 10, borderRadius: 8 },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: 8,
           border: `1px solid ${tokens.line}`,
           boxShadow: shadows.sm,
           backgroundColor: tokens.surface,
@@ -105,7 +105,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            borderRadius: 10,
+            borderRadius: 8,
             backgroundColor: '#FFFFFF',
             transition: 'border-color 150ms ease, box-shadow 150ms ease',
             '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#94A3B8' },
@@ -123,7 +123,7 @@ export const theme = createTheme({
     },
     MuiAlert: {
       styleOverrides: {
-        root: { borderRadius: 12, fontWeight: 500 },
+        root: { borderRadius: 8, fontWeight: 500 },
         filledSuccess: { backgroundColor: tokens.success },
         filledError: { backgroundColor: tokens.danger },
       },
@@ -138,18 +138,18 @@ export const theme = createTheme({
       },
     },
     MuiDialog: {
-      styleOverrides: { paper: { borderRadius: 16, border: `1px solid ${tokens.line}`, boxShadow: shadows.lg } },
+      styleOverrides: { paper: { borderRadius: 8, border: `1px solid ${tokens.line}`, boxShadow: shadows.lg } },
     },
     MuiListItemButton: {
       styleOverrides: {
-        root: { borderRadius: 10, transition: 'background-color 180ms ease' },
+        root: { borderRadius: 8, transition: 'background-color 180ms ease' },
       },
     },
     MuiMenu: {
-      styleOverrides: { paper: { borderRadius: 12, border: `1px solid ${tokens.line}`, boxShadow: shadows.lg } },
+      styleOverrides: { paper: { borderRadius: 8, border: `1px solid ${tokens.line}`, boxShadow: shadows.lg } },
     },
     MuiSnackbar: {
-      styleOverrides: { root: { borderRadius: 12 } },
+      styleOverrides: { root: { borderRadius: 8 } },
     },
     MuiAvatar: {
       styleOverrides: { root: { fontWeight: 700 } },

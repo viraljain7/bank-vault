@@ -33,7 +33,7 @@ export function EmptyState({
         sx={{
           width: 80,
           height: 80,
-          borderRadius: 3,
+          borderRadius: 1,
           display: 'grid',
           placeItems: 'center',
           background:
