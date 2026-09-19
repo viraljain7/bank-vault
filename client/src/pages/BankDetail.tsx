@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Grid, Paper, Typography } from '@mui/material';
-import { AtSign, Hash, IdCard, KeyRound, Landmark, Lock, ShieldCheck } from 'lucide-react';
+import { AtSign, Hash, IdCard, KeyRound, Building2, Lock, ShieldCheck } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { DetailSkeleton } from '../components/ui/Skeletons';
 import { SecretField, SecretFieldSkeleton } from '../components/ui/SecretField';
@@ -97,7 +97,8 @@ export function BankDetailPage() {
               color: '#fff',
             }}
           >
-            <Landmark size={17} />
+        <Building2 size={17} style={{ color: 'rgba(255,255,255,0.85)', flexShrink: 0 }} />
+
           </Box>
           <Typography variant="body2" sx={{ color: 'primary.dark', fontWeight: 700 }}>
             {item.metadata.bankName ?? item.title}

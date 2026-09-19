@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { Eye, EyeOff, Nfc } from 'lucide-react';
-import { formatCardNumber } from '../../lib/format';
 import type { CardPayload } from '../../types';
-import { maskCardNumber } from '../../lib/format';
+import { formatCardNumber, maskCardNumber } from '../../lib/format';
 
 /**
  * Realistic-but-original premium card visual. Shows non-secret data plus the

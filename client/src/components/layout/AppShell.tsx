@@ -137,11 +137,25 @@ export function AppShell() {
             px: 4,
             py: 2.5,
             height: 76,
-            bgcolor:'white',
-            position:'sticky',
-            top:'1px',
-            zIndex:100,
-            mb:2
+            position: 'sticky',
+            top: '0',
+            zIndex: 100,
+            mb: 2,
+            bgcolor: 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            boxShadow: '0 8px 24px -12px rgba(15,23,42,0.12)',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 2,
+              pointerEvents: 'none',
+              background:
+                'linear-gradient(90deg, transparent 0%, rgba(37,99,235,0.5) 20%, rgba(139,92,246,0.6) 50%, rgba(217,70,239,0.5) 80%, transparent 100%)',
+            },
           }}
         >
       <Box></Box>

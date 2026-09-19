@@ -69,12 +69,17 @@ export function SetupVaultScreen() {
   };
 
   return (
-    <Box sx={{ maxWidth: 440, mx: 'auto', py: 6, mt: { xs: 2, md: 8 } }} className="fade-in">
+    <Box sx={{ maxWidth: 440, mx: 'auto', py: 6, mt: { xs: 2 } }} className="fade-in">
       <Paper elevation={0} sx={{ p: 4, borderRadius: 1 }}>
-        <Box sx={{ width: 64, height: 64, borderRadius: 1, display: 'grid', placeItems: 'center', bgcolor: '#EBEFFF', color: 'primary.main', mb: 2 }}>
+        <Box sx={{
+          width: 64, height: 64, borderRadius: 1, display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center', mx: 'auto',
+          bgcolor: '#EBEFFF', color: 'primary.main', mb: 2
+        }}>
           <KeyRound size={30} />
         </Box>
-        <Typography variant="h2">Secure your vault</Typography>
+        <Typography variant="h2" sx={{ textAlign: 'center' }}>Secure your vault</Typography>
         <Typography variant="body2" sx={{ mt: 1, mb: 2 }}>
           Create an <strong>Unlock PIN</strong>. Your vault key is encrypted with it in your browser —
           the PIN never leaves this device, so VaultBank can’t recover it for you.
