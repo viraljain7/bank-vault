@@ -88,24 +88,14 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                     py: 1.05,
                     borderRadius: 1,
                     mb: 0.25,
-                    position: 'relative',
                     color: isActive ? 'primary.main' : 'text.secondary',
-                    bgcolor: isActive ? '#EBF0FF' : 'transparent',
-                    fontWeight: isActive ? 600 : 500,
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      left: -6,
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      width: 3.5,
-                      height: isActive ? 22 : 0,
-                      borderRadius: 1,
-                      bgcolor: 'primary.main',
-                      transition: 'height 180ms ease',
-                    },
-                    '&:hover': { bgcolor: isActive ? '#EBF0FF' : '#F1F5F9' },
-                    transition: 'background-color 180ms ease, color 180ms ease',
+                    bgcolor: isActive ? '#EEF3FF' : 'transparent',
+                    fontWeight: isActive ? 700 : 500,
+                    boxShadow: isActive
+                      ? 'inset 0 0 0 1px rgba(37,99,235,0.12), inset 3px 0 0 0 #2563EB'
+                      : 'none',
+                    '&:hover': { bgcolor: isActive ? '#EEF3FF' : '#F1F5F9' },
+                    transition: 'background-color 180ms ease, color 180ms ease, box-shadow 180ms ease',
                   }}
                 >
                   <Box sx={{ width: 18, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
@@ -182,33 +172,7 @@ export function UserCard() {
           </Box>
         </Box>
 
-        <Box
-          sx={{
-            mt: 1,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            px: 1,
-            py: 0.75,
-            borderRadius: 1,
-            bgcolor: unlocked ? '#ECFDF3' : '#F1F5F9',
-            color: unlocked ? '#15803D' : '#64748B',
-          }}
-        >
-          <Fingerprint size={15} />
-          <Typography variant="caption" fontWeight={600} flex={1}>
-            {unlocked ? 'Vault unlocked' : 'Vault protected'}
-          </Typography>
-          <Box
-            sx={{
-              width: 7,
-              height: 7,
-              borderRadius: '50%',
-              bgcolor: unlocked ? '#22C55E' : '#94A3B8',
-              animation: unlocked ? 'pulseDot 2s ease-in-out infinite' : 'none',
-            }}
-          />
-        </Box>
+  
 
         <Button
           fullWidth
