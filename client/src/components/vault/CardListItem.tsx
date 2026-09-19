@@ -1,5 +1,5 @@
 import { Box, Button, Chip, Paper, Skeleton, Stack, Typography } from '@mui/material';
-import { ChevronRight, ShieldCheck } from 'lucide-react';
+import { Nfc, ChevronRight,  ShieldCheck } from 'lucide-react';
 import type { CardPayload, VaultItem } from '../../types';
 import { useDecrypt } from '../../hooks/useDecrypt';
 import { FavoriteButton, ItemMenu, UpdatedTime } from './ItemActions';
@@ -25,6 +25,20 @@ export function CardListItem({
   return (
     <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 1, height: '100%' }}>
       <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+          <Box
+            sx={{
+              width: 46,
+              height: 46,
+              borderRadius: 1,
+              display: 'grid',
+              placeItems: 'center',
+              background: 'linear-gradient(135deg, #EAF0FF 0%, #DCE6FD 100%)',
+              color: 'primary.main',
+              flexShrink: 0,
+            }}
+          >
+        <Nfc size={ 22} style={{ color: 'rgba(15, 14, 14, 0.85)', flexShrink: 0 }} />
+          </Box>
         <Box sx={{ minWidth: 0 }}>
           <Typography variant="subtitle1" noWrap>
             {item.title}
@@ -66,10 +80,10 @@ export function CardListItem({
         fullWidth
         variant="text"
         onClick={onOpen}
-        sx={{ mt: 1.25, justifyContent: 'space-between', px: 2, '&:hover': { bgcolor: '#F8FAFC' } }}
+        endIcon={<ChevronRight size={16} style={{ color: 'primary.main' }} />}
+        sx={{ mt: 1.25, justifyContent: 'space-between', px: 2, bgcolor: '#F8FAFC', border: '1px solid', borderColor: 'divider', '&:hover': { bgcolor: '#EEF2FF' } }}
       >
         <Typography variant="body2" fontWeight={600}>Open vault entry</Typography>
-        <ChevronRight size={16} />
       </Button>
     </Paper>
   );

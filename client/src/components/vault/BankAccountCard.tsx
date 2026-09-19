@@ -1,5 +1,5 @@
 import { Box, Button, Chip, Paper, Stack, Typography } from '@mui/material';
-import { ChevronRight, Landmark, ShieldCheck } from 'lucide-react';
+import { Building2, ChevronRight, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { BankPayload, VaultItem } from '../../types';
 import { useDecrypt } from '../../hooks/useDecrypt';
@@ -39,7 +39,8 @@ export function BankAccountCard({
               flexShrink: 0,
             }}
           >
-            <Landmark size={22} />
+        <Building2 size={ 22} style={{ color: 'rgba(15, 14, 14, 0.85)', flexShrink: 0 }} />
+
           </Box>
           <Box sx={{ minWidth: 0 }}>
             <Typography variant="subtitle1" noWrap>
@@ -84,10 +85,10 @@ export function BankAccountCard({
       <Button
         component={Link}
         to={`/banks/${item._id}`}
-        endIcon={<ChevronRight size={16} />}
+        endIcon={<ChevronRight size={16} style={{ color: 'primary.main' }} />}
         fullWidth
         variant="text"
-        sx={{ mt: 1.5, justifyContent: 'space-between', px: 2, bgcolor: 'transparent', '&:hover': { bgcolor: '#F8FAFC' } }}
+        sx={{ mt: 1.5, justifyContent: 'space-between', px: 2, bgcolor: '#F8FAFC', border: '1px solid', borderColor: 'divider', '&:hover': { bgcolor: '#EEF2FF' } }}
       >
         <Typography variant="body2" fontWeight={600}>Open vault entry</Typography>
       </Button>
