@@ -137,11 +137,14 @@ export function AppShell() {
             px: 4,
             py: 2.5,
             height: 76,
+            bgcolor:'white',
+            position:'sticky',
+            top:'1px',
+            zIndex:100,
+            mb:2
           }}
         >
-          <Box>
-          
-          </Box>
+      <Box></Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Box

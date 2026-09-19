@@ -38,7 +38,7 @@ export function PageHeader({
         gap={2}
       >
         <Box>
-          <Typography variant="h2">{title}</Typography>
+          <Typography variant="h1">{title}</Typography>
           {subtitle && (
             <Typography variant="body2" sx={{ mt: 0.5 }}>
               {subtitle}

@@ -16,10 +16,38 @@ import { toApiError } from '../lib/api';
 import type { VaultItem } from '../types';
 
 const STAT_TONES = {
-  banks: { soil: '#EBF0FF', text: 'primary.main' },
-  cards: { soil: '#ECFDF3', text: 'success.main' },
-  favorites: { soil: '#FFFBEB', text: '#B45309' },
-  vault: { soil: '#EDE9FE', text: '#6D28D9' },
+  banks: {
+    bg: 'linear-gradient(135deg, #EEF3FF 0%, #FFFFFF 100%)',
+    line: 'linear-gradient(90deg, #2563EB, rgba(37,99,235,0))',
+    border: 'rgba(37,99,235,0.16)',
+    chip: '#E0E9FF',
+    text: '#2563EB',
+    glow: 'rgba(37,99,235,0.18)',
+  },
+  cards: {
+    bg: 'linear-gradient(135deg, #ECFDF5 0%, #FFFFFF 100%)',
+    line: 'linear-gradient(90deg, #059669, rgba(5,150,105,0))',
+    border: 'rgba(5,150,105,0.16)',
+    chip: '#D9F4E6',
+    text: '#059669',
+    glow: 'rgba(5,150,105,0.16)',
+  },
+  favorites: {
+    bg: 'linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%)',
+    line: 'linear-gradient(90deg, #B45309, rgba(180,83,9,0))',
+    border: 'rgba(180,83,9,0.16)',
+    chip: '#FCEFC7',
+    text: '#B45309',
+    glow: 'rgba(180,83,9,0.15)',
+  },
+  vault: {
+    bg: 'linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 100%)',
+    line: 'linear-gradient(90deg, #6D28D9, rgba(109,40,217,0))',
+    border: 'rgba(109,40,217,0.16)',
+    chip: '#EBE4FD',
+    text: '#6D28D9',
+    glow: 'rgba(109,40,217,0.16)',
+  },
 };
 
 function StatCard({
@@ -32,33 +60,91 @@ function StatCard({
   icon: React.ReactNode;
   label: string;
   value: number | string;
-  tone: { soil: string; text: string };
+  tone: { bg: string; line: string; border: string; chip: string; text: string; glow: string };
   hint?: string;
 }) {
   return (
-    <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 1, height: '100%' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Paper
+      elevation={0}
+      sx={{
+        position: 'relative',
+        overflow: 'hidden',
+        p: 2.5,
+        pr: { xs: 2.5, sm: 3 },
+        height: '100%',
+        borderRadius: 1.5,
+        background: tone.bg,
+        border: '1px solid',
+        borderColor: tone.border,
+        transition: 'transform 200ms ease, box-shadow 200ms ease',
+        '&:hover': {
+          transform: 'translateY(-3px)',
+          boxShadow: `0 16px 34px -8px ${tone.glow}`,
+        },
+      }}
+    >
+      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: tone.line }} />
+      <Box
+        sx={{
+          position: 'absolute',
+          top: -38,
+          right: -38,
+          width: 130,
+          height: 130,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${tone.glow} 0%, transparent 68%)`,
+          pointerEvents: 'none',
+        }}
+      />
+
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Box
           sx={{
-            width: 40,
-            height: 40,
-            borderRadius: 1,
+            width: 44,
+            height: 44,
+            borderRadius: 1.5,
             display: 'grid',
             placeItems: 'center',
-            bgcolor: tone.soil,
+            bgcolor: tone.chip,
             color: tone.text,
+            boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.65)',
           }}
         >
           {icon}
         </Box>
-        <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 600 }}>
-          {hint}
-        </Typography>
-      </Box>
-      <Typography variant="h3" sx={{ mt: 1.75, fontSize: '1.6rem', fontWeight: 800 }}>
+        {hint && (
+          <Box
+            sx={{
+              px: 1.25,
+              py: 0.4,
+              borderRadius: 6,
+              bgcolor: tone.chip,
+              color: tone.text,
+              fontSize: 10.5,
+              fontWeight: 800,
+              letterSpacing: 0.6,
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {hint}
+          </Box>
+        )}
+      </Stack>
+
+      <Typography
+        sx={{
+          mt: 2.25,
+          fontSize: { xs: '1.8rem', sm: '2rem' },
+          fontWeight: 800,
+          letterSpacing: '-0.03em',
+          lineHeight: 1,
+          color: '#0F172A',
+        }}
+      >
         {value}
       </Typography>
-      <Typography variant="body2" fontWeight={600} sx={{ color: 'text.secondary', mt: 0.25 }}>
+      <Typography variant="body2" fontWeight={700} sx={{ color: 'text.secondary', mt: 0.75 }}>
         {label}
       </Typography>
     </Paper>
@@ -111,9 +197,10 @@ export function DashboardPage() {
         justifyContent="space-between"
         alignItems={{ xs: 'flex-start', sm: 'center' }}
         spacing={2}
-        sx={{ mb: 3,mt:2 }}
+        sx={{ mb: 3, }}
       >
-        <Box>
+        <Box
+        >
           <Typography variant="h1">{greeting()}, {firstName}</Typography>
           <Typography variant="body2" sx={{ mt: 0.5 }}>
             Everything in your vault is encrypted before it reaches the server.
@@ -132,16 +219,16 @@ export function DashboardPage() {
       {/* Stats */}
       <Grid container spacing={2.5}>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<Landmark size={19} />} label="Bank Accounts" value={overview.data?.banks ?? 0} tone={STAT_TONES.banks} hint={`${totalCount} total`} />
+          <StatCard icon={<Landmark size={21} />} label="Bank Accounts" value={overview.data?.banks ?? 0} tone={STAT_TONES.banks} hint={`${totalCount} total`} />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<CreditCard size={19} />} label="Cards" value={overview.data?.cards ?? 0} tone={STAT_TONES.cards} hint="AES-256" />
+          <StatCard icon={<CreditCard size={21} />} label="Cards" value={overview.data?.cards ?? 0} tone={STAT_TONES.cards} hint="AES-256" />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<Star size={19} />} label="Favorites" value={overview.data?.favorites ?? 0} tone={STAT_TONES.favorites} hint="Quick access" />
+          <StatCard icon={<Star size={21} />} label="Favorites" value={overview.data?.favorites ?? 0} tone={STAT_TONES.favorites} hint="Quick access" />
         </Grid>
         <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<ShieldCheck size={19} />} label="Vault Status" value="Protected" tone={STAT_TONES.vault} hint={phase === 'unlocked' ? 'Unlocked' : 'Locked'} />
+          <StatCard icon={<ShieldCheck size={21} />} label="Vault Status" value="Protected" tone={STAT_TONES.vault} hint={phase === 'unlocked' ? 'Unlocked' : 'Locked'} />
         </Grid>
       </Grid>
 
