@@ -1,9 +1,10 @@
 import { Box, Button, Chip, Paper, Stack, Typography } from '@mui/material';
 import { ChevronRight, Landmark, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import type { VaultItem } from '../../types';
-import { maskAccountNumber } from '../../lib/format';
+import type { BankPayload, VaultItem } from '../../types';
+import { useDecrypt } from '../../hooks/useDecrypt';
 import { FavoriteButton, ItemMenu, UpdatedTime } from './ItemActions';
+import { PremiumBankCard } from './PremiumBankCard';
 
 export function BankAccountCard({
   item,
@@ -20,6 +21,7 @@ export function BankAccountCard({
 }) {
   const last4 = item.metadata.last4;
   const bankName = item.metadata.bankName ?? 'Bank account';
+  const payload = useDecrypt(item);
 
   return (
     <Paper elevation={0} className="card-hover" sx={{ p: 2.5, borderRadius: 1, height: '100%' }}>
@@ -54,31 +56,19 @@ export function BankAccountCard({
         </Stack>
       </Stack>
 
-      <Box
-        sx={{
-          mt: 2,
-          px: 1.75,
-          py: 1.25,
-          borderRadius: 1,
-          bgcolor: '#F8FAFC',
-          border: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
-        <Typography variant="caption" color="text.secondary">
-          Account number
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-            fontSize: 15,
-            fontWeight: 600,
-            letterSpacing: '0.02em',
-            mt: 0.25,
-          }}
-        >
-          {maskAccountNumber(last4)}
-        </Typography>
+      <Box sx={{ mt: 2, display: 'flex' }}>
+        {payload ? (
+          <PremiumBankCard bank={payload as BankPayload} last4={last4} size="sm" />
+        ) : (
+          <Box
+            sx={{
+              width: 240,
+              aspectRatio: '1.586',
+              borderRadius: 3,
+              bgcolor: 'rgba(5,150,105,0.12)',
+            }}
+          />
+        )}
       </Box>
 
       <Box sx={{ mt: 1.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

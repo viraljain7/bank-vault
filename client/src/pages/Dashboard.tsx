@@ -97,22 +97,25 @@ function StatCard({
         }}
       />
 
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Box
-          sx={{
-            width: 44,
-            height: 44,
-            borderRadius: 1.5,
-            display: 'grid',
-            placeItems: 'center',
-            bgcolor: tone.chip,
-            color: tone.text,
-            boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.65)',
-          }}
-        >
-          {icon}
-        </Box>
-        {hint && (
+      <Box
+        sx={{
+          position: 'absolute',
+          right: 18,
+          bottom: 18,
+          width: 44,
+          height: 44,
+          borderRadius: 1.5,
+          display: 'grid',
+          placeItems: 'center',
+          bgcolor: tone.chip,
+          color: tone.text,
+          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.65)',
+        }}
+      >
+        {icon}
+      </Box>
+      {hint && (
+        <Stack direction="row" justifyContent="flex-end">
           <Box
             sx={{
               px: 1.25,
@@ -129,12 +132,13 @@ function StatCard({
           >
             {hint}
           </Box>
-        )}
-      </Stack>
+        </Stack>
+      )}
 
       <Typography
         sx={{
           mt: 2.25,
+          pr: 6.5,
           fontSize: { xs: '1.8rem', sm: '2rem' },
           fontWeight: 800,
           letterSpacing: '-0.03em',
@@ -144,7 +148,7 @@ function StatCard({
       >
         {value}
       </Typography>
-      <Typography variant="body2" fontWeight={700} sx={{ color: 'text.secondary', mt: 0.75 }}>
+      <Typography variant="body2" fontWeight={700} sx={{ color: 'text.secondary', mt: 0.75, pr: 6.5 }}>
         {label}
       </Typography>
     </Paper>

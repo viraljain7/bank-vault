@@ -137,6 +137,7 @@ body {
   background: rgba(255, 255, 255, 0.08);
   top: -140px;
   right: -90px;
+  pointer-events: none;
 }
 .premium-card::after {
   content: '';
@@ -147,4 +148,36 @@ body {
   background: rgba(255, 255, 255, 0.06);
   bottom: -80px;
   left: -40px;
+  pointer-events: none;
+}
+
+/* Card visual for the premium bank account preview */
+.premium-bank-card {
+  background: linear-gradient(135deg, #064e3b 0%, #059669 55%, #10b981 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.premium-bank-card::before {
+  content: '';
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  top: -140px;
+  right: -90px;
+  pointer-events: none;
+}
+.premium-bank-card::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  bottom: -80px;
+  left: -40px;
+  pointer-events: none;
 }
