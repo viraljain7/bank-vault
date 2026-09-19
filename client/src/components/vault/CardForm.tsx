@@ -7,6 +7,7 @@ import {
   CalendarClock,
   CreditCard,
   FileText,
+  LockKeyhole,
   Nfc,
   Tag,
   UserRound,
@@ -52,6 +53,7 @@ export function CardForm({
       expiryMonth: '',
       expiryYear: '',
       cardBrand: 'Other',
+      cvv: '',
       notes: '',
       ...defaultValues,
     },
@@ -70,10 +72,11 @@ export function CardForm({
 
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data))} noValidate>
-      <Grid container spacing={2.5} sx={{ maxWidth: 620 }}>
+      <Grid container spacing={2.5} >
         <Grid size={{ xs: 12 }}>
           <Alert severity="info" icon={false} sx={{ borderRadius: 1 }}>
-            <strong>Security code:</strong> For your security, CVV/CVC is never stored in VaultBank.
+            <strong>Security code:</strong> The CVV is encrypted in your browser and stored as ciphertext
+            — never visible to our servers.
           </Alert>
         </Grid>
 
@@ -193,10 +196,33 @@ export function CardForm({
           />
         </Grid>
 
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Controller
+            name="cvv"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                label="CVV / CVC"
+                placeholder="•••"
+                fullWidth
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                onBlur={field.onBlur}
+                inputRef={field.ref}
+                InputProps={{ startAdornment: startIcon(<LockKeyhole size={18} />) }}
+                error={Boolean(errors.cvv)}
+                helperText={errors.cvv?.message ?? '3–4 digits · stored encrypted'}
+                inputMode="numeric"
+                autoComplete="off"
+              />
+            )}
+          />
+        </Grid>
+
         <Grid size={{ xs: 12 }}>
           <Alert severity="info" icon={false} sx={{ borderRadius: 1 }}>
-            <strong>CVV/CVC is intentionally not stored.</strong> Card PIN, OTP and 3DS codes are also
-            never saved. This keeps your vault safe from becoming a target.
+            <strong>Card PIN, OTP and 3DS codes are never saved.</strong> The CVV is encrypted end-to-end
+            and revealed only when you want to see it.
           </Alert>
         </Grid>
 

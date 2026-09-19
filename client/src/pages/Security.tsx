@@ -70,7 +70,7 @@ export function SecurityPage() {
   };
 
   return (
-    <Box className="fade-in" sx={{ maxWidth: 640 }}>
+    <Box className="fade-in" >
       <PageHeader title="Security" subtitle="Protect your vault" />
 
       <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>
@@ -106,7 +106,8 @@ export function SecurityPage() {
             Account and card details are AES-256-GCM encrypted in your browser.
           </Alert>
           <Alert severity="warning" icon={<ShieldCheck size={16} />} sx={{ borderRadius: 1 }}>
-            CVV/CVC, card PIN, OTP and 3DS codes are never stored — by design.
+            Card PIN, OTP and 3DS codes are never stored — by design. The CVV is stored encrypted
+            end-to-end and revealed only when you ask.
           </Alert>
           <Alert severity="info" sx={{ borderRadius: 1 }}>
             Audit activity contains actions and timestamps only; never secret values.

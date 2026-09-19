@@ -31,6 +31,7 @@ function assertCardPayload(value: unknown): CardPayload {
     expiryMonth: String(v.expiryMonth ?? ''),
     expiryYear: String(v.expiryYear ?? ''),
     cardBrand: String(v.cardBrand ?? ''),
+    cvv: String(v.cvv ?? ''),
     notes: String(v.notes ?? ''),
   };
 }

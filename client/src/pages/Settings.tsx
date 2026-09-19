@@ -28,7 +28,7 @@ export function SettingsPage() {
   const email = user?.primaryEmailAddress?.emailAddress ?? '';
 
   return (
-    <Box className="fade-in" sx={{ maxWidth: 640 }}>
+    <Box className="fade-in" >
       <PageHeader title="Settings" subtitle="Preferences and account" />
 
       <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>

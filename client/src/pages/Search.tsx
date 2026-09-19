@@ -36,7 +36,7 @@ export function SearchPage() {
     <Box>
       <PageHeader title="Search" subtitle="Find credentials by bank, brand, nickname or last digits" />
 
-      <Box sx={{ maxWidth: 560 }}>
+      <Box >
         <TextField
           fullWidth
           placeholder="Try “HDFC”, “Visa”, “Personal” or “4821”..."

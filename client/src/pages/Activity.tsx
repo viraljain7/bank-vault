@@ -92,7 +92,7 @@ export function ActivityPage() {
   if (isLoading) return <TableSkeleton rows={8} />;
 
   return (
-    <Box className="fade-in" sx={{ maxWidth: 720 }}>
+    <Box className="fade-in" >
       <PageHeader title="Security Activity" subtitle="A non-sensitive log of vault events" />
 
       <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }}>

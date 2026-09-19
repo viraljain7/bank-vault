@@ -35,7 +35,7 @@ export interface BankPayload {
   notes: string;
 }
 
-/** Decrypted payload for a card. CVV/CVC/PIN/OTP are never stored. */
+/** Decrypted payload for a card. CVV is stored encrypted end-to-end (like the card number); card PIN/OTP/3DS are never stored. */
 export interface CardPayload {
   cardNickname: string;
   cardholderName: string;
@@ -43,6 +43,7 @@ export interface CardPayload {
   expiryMonth: string;
   expiryYear: string;
   cardBrand: string;
+  cvv: string;
   notes: string;
 }
 

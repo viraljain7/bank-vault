@@ -167,7 +167,7 @@ export function DashboardPage() {
         <Box sx={{ flex: 1 }}>
           <Typography variant="subtitle2">End-to-end encrypted vault</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.25 }}>
-            AES-256-GCM client-side encryption · PBKDF2-SHA256 unlock key (210,000 rounds) · CVV, card PIN & OTP never stored
+            AES-256-GCM client-side encryption · PBKDF2-SHA256 unlock key (210,000 rounds) · CVV encrypted end-to-end · PIN, OTP & 3DS never stored
           </Typography>
         </Box>
         <Button

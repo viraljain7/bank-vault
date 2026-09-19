@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import { reportActivity } from '../../crypto/sessionKey';
@@ -9,6 +9,7 @@ import { maskGeneric } from '../../lib/format';
 export interface SecretFieldProps {
   label: string;
   value: string;
+  icon?: ReactNode;
   sensitivity?: 'standard' | 'high';
   /** How long a revealed value stays visible (only applies to 'high'). */
   autoHideMs?: number;
@@ -32,6 +33,7 @@ export interface SecretFieldProps {
 export function SecretField({
   label,
   value,
+  icon,
   sensitivity = 'standard',
   autoHideMs = SENSITIVE_REVEAL_TIMEOUT_MS,
   revealDisabled,
@@ -121,6 +123,11 @@ export function SecretField({
           opacity: hiding ? 0.5 : 1,
         }}
       >
+        {icon && (
+          <Box sx={{ display: 'inline-flex', alignItems: 'center', color: 'text.secondary', flexShrink: 0 }}>
+            {icon}
+          </Box>
+        )}
         <Typography
           component="span"
           sx={{

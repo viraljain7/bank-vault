@@ -1,13 +1,12 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Button, Paper, Stack, Typography } from '@mui/material';
-import { Edit3 } from 'lucide-react';
+import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
+import { CalendarClock, Edit3, LockKeyhole, Nfc, ShieldCheck, UserRound } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { SecretField, SecretFieldSkeleton } from '../components/ui/SecretField';
 import { useVaultItem } from '../hooks/useVaultQueries';
 import { useVault } from '../contexts/VaultContext';
 import { useDecrypt } from '../hooks/useDecrypt';
 import type { CardPayload } from '../types';
-import { PremiumCard } from '../components/vault/PremiumCard';
 
 export function CardDetailPage() {
   const { id } = useParams();
@@ -21,7 +20,7 @@ export function CardDetailPage() {
     return (
       <Box>
         <PageHeader title="Card" backTo="/cards" />
-        <Stack spacing={1.5} sx={{ maxWidth: 680 }}>
+        <Stack spacing={1.5} >
           <SecretFieldSkeleton />
           <SecretFieldSkeleton />
           <SecretFieldSkeleton />
@@ -31,7 +30,7 @@ export function CardDetailPage() {
   }
 
   return (
-    <Box className="fade-in" sx={{ maxWidth: 680 }}>
+    <Box className="fade-in" >
       <PageHeader
         title={payload?.cardNickname || item.title || 'Card'}
         subtitle={item.metadata.cardBrand}
@@ -47,31 +46,60 @@ export function CardDetailPage() {
         }
       />
 
-      <PremiumCard card={payload} last4={item.metadata.last4} />
 
       <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mt: 3 }}>
         {payload ? (
-          <Stack spacing={2.5}>
-            <SecretField label="Card Number" value={payload.cardNumber} resourceType="card" resourceId={id} sensitivity="high" autoHideMs={15_000} />
-            <SecretField label="Cardholder Name" value={payload.cardholderName} resourceType="card" resourceId={id} />
-            <SecretField label="Expiry" value={`${payload.expiryMonth}/${payload.expiryYear}`} resourceType="card" resourceId={id} />
-            {payload.notes && (
-              <Box>
-                <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>
-                  Notes
-                </Typography>
-                <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 1 }}>
-                  {payload.notes}
-                </Paper>
+          <Grid container spacing={2.5}>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretField label="Card Number" icon={<Nfc size={16} />} value={payload.cardNumber} resourceType="card" resourceId={id} sensitivity="high" autoHideMs={15_000} />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretField label="Cardholder Name" icon={<UserRound size={16} />} value={payload.cardholderName} resourceType="card" resourceId={id} />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretField label="Expiry" icon={<CalendarClock size={16} />} value={`${payload.expiryMonth}/${payload.expiryYear}`} resourceType="card" resourceId={id} />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretField label="CVV / CVC" icon={<LockKeyhole size={16} />} value={payload.cvv} resourceType="card" resourceId={id} sensitivity="high" autoHideMs={15_000} />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.75,
+                  borderRadius: 1,
+                  px: 1.25,
+                  py: 1,
+                  bgcolor: '#ECFDF3',
+                  color: '#15803D',
+                  typography: 'body2',
+                }}
+              >
+                <ShieldCheck size={15} />
+                This credential is decrypted only in your browser.
               </Box>
+            </Grid>
+            {payload.notes && (
+              <Grid size={{ xs: 12 }}>
+                <Box>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>
+                    Notes
+                  </Typography>
+                  <Paper variant="outlined" sx={{ p: 1.5, borderRadius: 1 }}>
+                    {payload.notes}
+                  </Paper>
+                </Box>
+              </Grid>
             )}
-          </Stack>
+          </Grid>
         ) : (
-          <Stack spacing={2.5}>
-            <SecretFieldSkeleton />
-            <SecretFieldSkeleton />
-            <SecretFieldSkeleton />
-          </Stack>
+          <Grid container spacing={2.5}>
+            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
+            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
+            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
+            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
+          </Grid>
         )}
 
         <Box
@@ -84,7 +112,8 @@ export function CardDetailPage() {
             typography: 'body2',
           }}
         >
-          Security note: CVV/CVC, card PIN and OTP are intentionally not stored anywhere in your vault.
+          Security note: card PIN, OTP and 3DS codes are never stored. The CVV is stored encrypted
+          end-to-end and revealed only when you choose to.
         </Box>
       </Paper>
     </Box>

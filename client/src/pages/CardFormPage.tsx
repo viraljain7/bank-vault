@@ -56,7 +56,7 @@ export function CardFormPage({ mode }: { mode: 'create' | 'edit' }) {
 
   if (isBeingLoaded) {
     return (
-      <Box sx={{ maxWidth: 600 }}>
+      <Box >
         <PageHeader title={editing ? 'Edit Card' : 'Add Card'} />
         <DetailSkeleton />
       </Box>
@@ -64,10 +64,10 @@ export function CardFormPage({ mode }: { mode: 'create' | 'edit' }) {
   }
 
   return (
-    <Box className="fade-in" sx={{ maxWidth: 600 }}>
+    <Box className="fade-in" >
       <PageHeader
         title={editing ? 'Edit Card' : 'Add Card'}
-        subtitle={editing ? 'Update the encrypted card details below' : 'CVV/CVC is never stored'}
+        subtitle={editing ? 'Update the encrypted card details below' : 'CVV stored encrypted end-to-end'}
       />
       <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 3.5 }, borderRadius: 3 }}>
         <CardForm

@@ -55,7 +55,7 @@ export function CardListItem({
       >
         <Chip
           icon={<ShieldCheck size={13} />}
-          label="CVV never stored"
+          label="CVV stored encrypted"
           size="small"
           sx={{ bgcolor: '#FFFBEB', color: '#B45309', fontSize: 11 }}
         />

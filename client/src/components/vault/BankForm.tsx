@@ -70,7 +70,7 @@ export function BankForm({
 
   return (
     <form onSubmit={handleSubmit((data) => onSubmit(data))} noValidate>
-      <Grid container spacing={2.5} sx={{ maxWidth: 620 }}>
+      <Grid container spacing={2.5} >
         <Grid size={{ xs: 12, sm: 6 }}>
           <TextField
             label="Bank name"

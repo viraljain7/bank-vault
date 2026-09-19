@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 const FEATURES = [
   { icon: <Fingerprint size={17} />, text: 'Unlock with a PIN you choose' },
   { icon: <LockKeyhole size={17} />, text: 'AES-256-GCM encrypted in your browser' },
-  { icon: <ShieldCheck size={17} />, text: 'CVV, PIN & OTP are never stored' },
+  { icon: <ShieldCheck size={17} />, text: 'Card PIN, OTP & 3DS are never stored' },
 ];
 
 /** Branded split layout used by the Clerk-powered sign-in / sign-up pages. */

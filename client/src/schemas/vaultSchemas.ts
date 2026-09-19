@@ -64,6 +64,10 @@ export const cardPayloadSchema = z.object({
       return year >= currentYear() && year <= currentYear() + 20;
     }, 'Expiry year is out of range'),
   cardBrand: z.enum(CARD_BRANDS),
+  cvv: z
+    .string()
+    .trim()
+    .refine((v) => v === '' || /^\d{3,4}$/.test(v), 'CVV must be 3–4 digits'),
   notes: z.string().max(300, 'Notes are limited to 300 characters'),
 });
 

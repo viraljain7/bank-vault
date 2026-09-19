@@ -44,7 +44,7 @@ export function CardsPage() {
     <Box>
       <PageHeader
         title="Cards"
-        subtitle="CVV/CVC, PIN and OTP are never stored"
+        subtitle="End-to-end encrypted · PIN, OTP & 3DS never stored"
         actions={<AddButton to="/cards/new" label="Add Card" />}
       />
 

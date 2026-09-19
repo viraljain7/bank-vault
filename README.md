@@ -18,8 +18,9 @@ Built with a React + TypeScript SPA, an Express + TypeScript API, and MongoDB.
 - **Unlock PIN** — the vault key is wrapped with a user-chosen PIN via PBKDF2-SHA256
   (210,000 iterations). The wrapped blob is the only key material stored server-side, and it is
   additionally encrypted at rest with the server `ENCRYPTION_KEY` (defense in depth).
-- **Nevers** — CVV/CVC, card PIN, OTP and 3DS codes are **never stored**. Audit activity logs
-  never contain secret values. Logs are redacted of secrets by default.
+- **Nevers** — card PIN, OTP and 3DS codes are **never stored**. The CVC/CVV is stored
+  AES-256-GCM-encrypted end-to-end alongside card details (never visible to the backend in
+  plaintext). Audit activity logs never contain secret values. Logs are redacted of secrets by default.
 - **Multi-tenant isolation** — every query is scoped to the verified Clerk `userId` of the
   requesting session; cross-user access (IDOR) is covered by integration tests.
 - **Auto-lock** — hidden after a configurable idle timeout (1m / 5m / 15m / 30m / never);
@@ -177,7 +178,8 @@ client-side encryption and is the reason VaultBank recommends your OS-backed pas
 store the PIN.
 
 ### What is never stored
-- CVV/CVC, ATM/card PIN, OTP, and 3DS codes (cards simply don't have fields for them)
+- ATM/card PIN, OTP, and 3DS codes (the CVC/CVV you enter is stored encrypted end-to-end, like the
+  card number, and is never visible to the server in plaintext)
 - Any plaintext secret — the API rejects payloads containing plaintext secret-shaped fields
 - The raw vault key in any form the server could decrypt by itself
 
@@ -219,5 +221,5 @@ static host (Vercel, Netlify, S3+CloudFront, nginx). Requirements:
    `client/src/schemas/vaultSchemas.ts` and `server/src/modules/vault/vault.schemas.ts`.
 2. Extend `VaultItemType` and the metadata schema on both sides.
 3. Add a form + list card in the client (`src/pages`, `src/components/vault`).
-4. Keep the golden rules: never store CVV/PIN/OTP, keep audit logs free of secret values, and
-   scope every query to `req.auth.userId`.
+4. Keep the golden rules: never store card PIN/OTP/3DS in plaintext, keep audit logs free of
+   secret values, and scope every query to `req.auth.userId`.
