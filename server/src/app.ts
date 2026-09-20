@@ -1,138 +1,502 @@
-import express, { type Express } from "express";
+import express, {
+  type Express,
+  type NextFunction,
+  type Request,
+  type Response,
+} from "express";
+
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
 import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
 
 import { env } from "./config/env.js";
-import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
-import { requireAuth, type ClerkTokenVerifier } from "./middleware/auth.js";
+import {
+  errorHandler,
+  notFoundHandler,
+} from "./middleware/errorHandler.js";
+
+import {
+  requireAuth,
+  type ClerkTokenVerifier,
+} from "./middleware/auth.js";
+
 import { createVaultRouter } from "./modules/vault/vault.routes.js";
 import { createKeysRouter } from "./modules/keys/keys.routes.js";
 import { createActivityRouter } from "./modules/activity/activity.routes.js";
 import { createSecurityRouter } from "./modules/security/security.routes.js";
 
-/** Strips any leaked incoming sensitive query keys before handling. */
+/**
+ * ---------------------------------------------------------
+ * ESM __dirname
+ * ---------------------------------------------------------
+ */
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+/**
+ * ---------------------------------------------------------
+ * Sanitize sensitive query parameters
+ * ---------------------------------------------------------
+ */
+
 function sanitizeQuery(
-  req: express.Request,
-  _res: express.Response,
-  next: express.NextFunction,
+  req: Request,
+  _res: Response,
+  next: NextFunction,
 ): void {
-  const blocked = ["password", "cardnumber", "cvv", "otp", "token"];
+  const blocked = [
+    "password",
+    "cardnumber",
+    "cvv",
+    "otp",
+    "token",
+  ];
+
   for (const key of Object.keys(req.query)) {
-    if (blocked.includes(key.toLowerCase())) delete req.query[key];
+    if (blocked.includes(key.toLowerCase())) {
+      delete req.query[key];
+    }
   }
+
   next();
 }
 
+/**
+ * ---------------------------------------------------------
+ * Find React/Vite production build
+ * ---------------------------------------------------------
+ *
+ * Supports common project structures:
+ *
+ * project/
+ * ├── client/
+ * │   └── dist/
+ * │       ├── index.html
+ * │       └── assets/
+ *
+ * OR
+ *
+ * project/
+ * ├── server/
+ * │   └── dist/
+ * └── client/
+ *     └── dist/
+ *
+ * ---------------------------------------------------------
+ */
+
+function getFrontendPath(): string {
+  const possiblePaths = [
+    // If app is started from project root
+    path.resolve(process.cwd(), "client/dist"),
+
+    // If server is started from server directory
+    path.resolve(process.cwd(), "../client/dist"),
+
+    // If compiled file is server/dist/app.js
+    path.resolve(__dirname, "../../client/dist"),
+
+    // If compiled file is server/dist/src/app.js
+    path.resolve(__dirname, "../../../client/dist"),
+  ];
+
+  const frontendPath = possiblePaths.find((directory) => {
+    return fs.existsSync(
+      path.join(directory, "index.html"),
+    );
+  });
+
+  if (!frontendPath) {
+    console.error(
+      "\n❌ React production build not found.\n",
+    );
+
+    console.error("Checked paths:");
+
+    for (const directory of possiblePaths) {
+      console.error(`  - ${directory}`);
+    }
+
+    console.error(
+      "\nRun the React/Vite production build first:\n",
+    );
+
+    console.error("  cd client");
+    console.error("  npm run build\n");
+
+    // Return the primary expected path so the error
+    // handler can still report the problem.
+    return possiblePaths[0]!;
+  }
+
+  console.log(
+    `✅ React frontend found: ${frontendPath}`,
+  );
+
+  return frontendPath;
+}
+
+/**
+ * ---------------------------------------------------------
+ * App options
+ * ---------------------------------------------------------
+ */
+
 export interface CreateAppOptions {
-  /** Override the Clerk verifier (used by tests). */
+  /**
+   * Override Clerk verifier.
+   * Used by tests.
+   */
   authVerifier?: ClerkTokenVerifier;
 }
 
-export function createApp(options: CreateAppOptions = {}): Express {
+/**
+ * ---------------------------------------------------------
+ * Create Express App
+ * ---------------------------------------------------------
+ */
+
+export function createApp(
+  options: CreateAppOptions = {},
+): Express {
   const app = express();
 
-  const __dirname = path.resolve();
+  /**
+   * -------------------------------------------------------
+   * Basic Express settings
+   * -------------------------------------------------------
+   */
 
   app.disable("x-powered-by");
-  app.set("trust proxy", env.TRUST_PROXY ? 1 : 0);
 
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
+  app.set(
+    "trust proxy",
+    env.TRUST_PROXY ? 1 : 0,
+  );
 
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "'unsafe-eval'",
-          "https://*.clerk.accounts.dev",
-        ],
+  /**
+   * -------------------------------------------------------
+   * Security Headers / CSP
+   * -------------------------------------------------------
+   */
 
-        styleSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://fonts.googleapis.com",
-        ],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          /**
+           * Default
+           */
+          defaultSrc: ["'self'"],
 
-        fontSrc: [
-          "'self'",
-          "data:",
-          "https://fonts.gstatic.com",
-        ],
+          /**
+           * React/Vite + Clerk
+           */
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            "https://*.clerk.accounts.dev",
+          ],
 
-        imgSrc: [
-          "'self'",
-          "data:",
-          "blob:",
-          "https:",
-        ],
+          /**
+           * Google Fonts
+           */
+          styleSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "https://fonts.googleapis.com",
+          ],
 
-        connectSrc: [
-          "'self'",
-          "https://*.clerk.accounts.dev",
-          "https://api.clerk.com",
-        ],
+          /**
+           * Google Fonts files
+           */
+          fontSrc: [
+            "'self'",
+            "data:",
+            "https://fonts.gstatic.com",
+          ],
 
-        frameSrc: [
-          "'self'",
-          "https://*.clerk.accounts.dev",
-        ],
+          /**
+           * Images
+           */
+          imgSrc: [
+            "'self'",
+            "data:",
+            "blob:",
+            "https:",
+          ],
 
-        frameAncestors: ["'none'"],
+          /**
+           * API / Clerk
+           */
+          connectSrc: [
+            "'self'",
+            "https://*.clerk.accounts.dev",
+            "https://api.clerk.com",
+          ],
+
+          /**
+           * Clerk iframe
+           */
+          frameSrc: [
+            "'self'",
+            "https://*.clerk.accounts.dev",
+          ],
+
+          /**
+           * Prevent clickjacking
+           */
+          frameAncestors: ["'none'"],
+        },
       },
-    },
 
-    crossOriginEmbedderPolicy: false,
-  }),
-);
+      /**
+       * Clerk / external resources can otherwise
+       * conflict with COEP.
+       */
+      crossOriginEmbedderPolicy: false,
+    }),
+  );
+
+  /**
+   * -------------------------------------------------------
+   * CORS
+   * -------------------------------------------------------
+   */
+
   app.use(
     cors({
       origin(origin, callback) {
-        if (!origin) return callback(null, true); // non-browser clients
+        /**
+         * Allow non-browser requests
+         * such as curl/Postman/server-to-server.
+         */
+        if (!origin) {
+          return callback(null, true);
+        }
+
+        /**
+         * Allow configured origins.
+         */
         if (
           env.CORS_ORIGINS.includes("*") ||
           env.CORS_ORIGINS.includes(origin)
         ) {
           return callback(null, true);
         }
-        return callback(new Error("Origin not allowed"));
+
+        return callback(
+          new Error("Origin not allowed"),
+        );
       },
-      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-      allowedHeaders: ["Content-Type", "Authorization"],
+
+      methods: [
+        "GET",
+        "POST",
+        "PATCH",
+        "DELETE",
+        "OPTIONS",
+      ],
+
+      allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+      ],
+
       credentials: true,
+
       maxAge: 86400,
     }),
   );
 
+  /**
+   * -------------------------------------------------------
+   * Compression
+   * -------------------------------------------------------
+   */
+
   app.use(compression());
-  app.use(express.json({ limit: "64kb" }));
+
+  /**
+   * -------------------------------------------------------
+   * JSON parser
+   * -------------------------------------------------------
+   */
+
+  app.use(
+    express.json({
+      limit: "64kb",
+    }),
+  );
+
+  /**
+   * -------------------------------------------------------
+   * Sanitize query parameters
+   * -------------------------------------------------------
+   */
+
   app.use(sanitizeQuery);
 
+  /**
+   * -------------------------------------------------------
+   * Health check
+   * -------------------------------------------------------
+   */
+
   app.get("/health", (_req, res) => {
-    res.json({ success: true, data: { status: "ok", name: "vaultbank-api" } });
+    res.json({
+      success: true,
+      data: {
+        status: "ok",
+        name: "vaultbank-api",
+      },
+    });
   });
+
+  /**
+   * -------------------------------------------------------
+   * Authentication
+   * -------------------------------------------------------
+   */
 
   const auth = options.authVerifier
     ? requireAuth(options.authVerifier)
     : requireAuth();
 
-  app.use("/api/v1/vault", createVaultRouter(auth));
-  app.use("/api/v1/keys", createKeysRouter(auth));
-  app.use("/api/v1/activity", createActivityRouter(auth));
-  app.use("/api/v1/security", createSecurityRouter(auth));
+  /**
+   * -------------------------------------------------------
+   * API Routes
+   * -------------------------------------------------------
+   */
+
+  app.use(
+    "/api/v1/vault",
+    createVaultRouter(auth),
+  );
+
+  app.use(
+    "/api/v1/keys",
+    createKeysRouter(auth),
+  );
+
+  app.use(
+    "/api/v1/activity",
+    createActivityRouter(auth),
+  );
+
+  app.use(
+    "/api/v1/security",
+    createSecurityRouter(auth),
+  );
+
+  /**
+   * -------------------------------------------------------
+   * React / Vite Production Build
+   * -------------------------------------------------------
+   */
 
   if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../client/dist")));
+    const frontendPath = getFrontendPath();
 
-    app.use((req, res) => {
-      res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
+    console.log(
+      `📦 Serving React frontend from: ${frontendPath}`,
+    );
+
+    /**
+     * Static assets
+     *
+     * This MUST come before the SPA fallback.
+     *
+     * Example:
+     *
+     * /assets/index-CzOfBWNJ.css
+     * /assets/index-xxxxx.js
+     */
+    app.use(
+      express.static(frontendPath, {
+        index: false,
+
+        /**
+         * Browser caching for Vite hashed assets.
+         */
+        setHeaders(res, filePath) {
+          if (
+            filePath.includes(
+              `${path.sep}assets${path.sep}`,
+            )
+          ) {
+            res.setHeader(
+              "Cache-Control",
+              "public, max-age=31536000, immutable",
+            );
+          }
+        },
+      }),
+    );
+
+    /**
+     * React SPA fallback
+     *
+     * Only non-API browser routes should reach this.
+     */
+    app.get("*", (req, res, next) => {
+      /**
+       * Never return React index.html for API routes.
+       */
+      if (req.path.startsWith("/api/")) {
+        return next();
+      }
+
+      /**
+       * Don't interfere with health endpoint.
+       */
+      if (req.path === "/health") {
+        return next();
+      }
+
+      const indexPath = path.join(
+        frontendPath,
+        "index.html",
+      );
+
+      /**
+       * Make sure index.html exists.
+       */
+      if (!fs.existsSync(indexPath)) {
+        console.error(
+          `❌ React index.html not found: ${indexPath}`,
+        );
+
+        return next(
+          new Error(
+            "React production build not found",
+          ),
+        );
+      }
+
+      return res.sendFile(indexPath);
     });
   }
 
+  /**
+   * -------------------------------------------------------
+   * 404
+   * -------------------------------------------------------
+   */
+
   app.use(notFoundHandler);
+
+  /**
+   * -------------------------------------------------------
+   * Global Error Handler
+   * -------------------------------------------------------
+   */
+
   app.use(errorHandler);
 
   return app;
