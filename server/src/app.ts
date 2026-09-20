@@ -38,21 +38,49 @@ export function createApp(options: CreateAppOptions = {}): Express {
   app.disable("x-powered-by");
   app.set("trust proxy", env.TRUST_PROXY ? 1 : 0);
 
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", "'unsafe-inline'"], // Vite dev HMR + Clerk
-          styleSrc: ["'self'", "'unsafe-inline'"],
-          imgSrc: ["'self'", "data:", "https:"],
-          connectSrc: ["'self'", "https://*.clerk.accounts.dev"],
-          frameAncestors: ["'none'"],
-        },
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://*.clerk.accounts.dev",
+        ],
+
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+        ],
+
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https:",
+        ],
+
+        connectSrc: [
+          "'self'",
+          "https://*.clerk.accounts.dev",
+          "https://api.clerk.com",
+        ],
+
+        frameSrc: [
+          "'self'",
+          "https://*.clerk.accounts.dev",
+        ],
+
+        frameAncestors: ["'none'"],
       },
-      crossOriginEmbedderPolicy: false,
-    }),
-  );
+    },
+
+    crossOriginEmbedderPolicy: false,
+  }),
+);
 
   app.use(
     cors({
