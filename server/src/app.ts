@@ -201,6 +201,7 @@ export function createApp(
             "'unsafe-inline'",
             "'unsafe-eval'",
             "https://*.clerk.accounts.dev",
+            "https://clerk.jainviral.com",
           ],
 
           /**
@@ -238,6 +239,7 @@ export function createApp(
             "'self'",
             "https://*.clerk.accounts.dev",
             "https://api.clerk.com",
+            "https://clerk.jainviral.com",
           ],
 
           /**
@@ -246,6 +248,7 @@ export function createApp(
           frameSrc: [
             "'self'",
             "https://*.clerk.accounts.dev",
+            "https://clerk.jainviral.com",
           ],
 
           /**
