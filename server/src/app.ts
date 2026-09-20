@@ -54,6 +54,13 @@ app.use(
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+        ],
+
+        fontSrc: [
+          "'self'",
+          "data:",
+          "https://fonts.gstatic.com",
         ],
 
         imgSrc: [
@@ -81,7 +88,6 @@ app.use(
     crossOriginEmbedderPolicy: false,
   }),
 );
-
   app.use(
     cors({
       origin(origin, callback) {
