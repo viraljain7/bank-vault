@@ -10,7 +10,6 @@ import {
   Settings,
   ShieldCheck,
   Star,
-  Fingerprint,
   LockKeyhole,
 } from 'lucide-react';
 import { Avatar, Box, Button, Typography, useMediaQuery } from '@mui/material';
