@@ -184,87 +184,102 @@ export function createApp(
    * -------------------------------------------------------
    */
 
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          /**
-           * Default
-           */
-          defaultSrc: ["'self'"],
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
 
-          /**
-           * React/Vite + Clerk
-           */
-          scriptSrc: [
-            "'self'",
-            "'unsafe-inline'",
-            "'unsafe-eval'",
-            "https://*.clerk.accounts.dev",
-            "https://clerk.jainviral.com",
-          ],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
 
-          /**
-           * Google Fonts
-           */
-          styleSrc: [
-            "'self'",
-            "'unsafe-inline'",
-            "https://fonts.googleapis.com",
-          ],
+          // Your Clerk frontend API/custom domain
+          "https://clerk.jainviral.com",
 
-          /**
-           * Google Fonts files
-           */
-          fontSrc: [
-            "'self'",
-            "data:",
-            "https://fonts.gstatic.com",
-          ],
+          // Clerk development/custom hosts if still used anywhere
+          "https://*.clerk.accounts.dev",
 
-          /**
-           * Images
-           */
-          imgSrc: [
-            "'self'",
-            "data:",
-            "blob:",
-            "https:",
-          ],
+          // ⭐ Required by Clerk CAPTCHA / Turnstile
+          "https://challenges.cloudflare.com",
 
-          /**
-           * API / Clerk
-           */
-          connectSrc: [
-            "'self'",
-            "https://*.clerk.accounts.dev",
-            "https://api.clerk.com",
-            "https://clerk.jainviral.com",
-          ],
+          // ⭐ Clerk abuse/fraud protection
+          "https://*.protect.clerk.com",
+        ],
 
-          /**
-           * Clerk iframe
-           */
-          frameSrc: [
-            "'self'",
-            "https://*.clerk.accounts.dev",
-            "https://clerk.jainviral.com",
-          ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+        ],
 
-          /**
-           * Prevent clickjacking
-           */
-          frameAncestors: ["'none'"],
-        },
+        fontSrc: [
+          "'self'",
+          "data:",
+          "https://fonts.gstatic.com",
+        ],
+
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https:",
+          "https://img.clerk.com",
+        ],
+
+        connectSrc: [
+          "'self'",
+
+          // Your Clerk custom frontend API
+          "https://clerk.jainviral.com",
+
+          // Clerk
+          "https://*.clerk.accounts.dev",
+          "https://api.clerk.com",
+
+          // ⭐ Clerk abuse/fraud protection
+          "https://*.protect.clerk.com:*",
+
+          // ⭐ Cloudflare Turnstile
+          "https://challenges.cloudflare.com",
+        ],
+
+        frameSrc: [
+          "'self'",
+
+          // ⭐ Cloudflare Turnstile
+          "https://challenges.cloudflare.com",
+
+          // Clerk
+          "https://clerk.jainviral.com",
+          "https://*.clerk.accounts.dev",
+
+          // ⭐ Clerk protection
+          "https://*.protect.clerk.com",
+        ],
+
+        workerSrc: [
+          "'self'",
+          "blob:",
+        ],
+
+        childSrc: [
+          "'self'",
+          "blob:",
+          "https://challenges.cloudflare.com",
+          "https://*.protect.clerk.com",
+        ],
+
+        frameAncestors: ["'none'"],
+
+        formAction: ["'self'"],
       },
+    },
 
-      /**
-       * Clerk / external resources can otherwise
-       * conflict with COEP.
-       */
-      crossOriginEmbedderPolicy: false,
-    }),
-  );
+    crossOriginEmbedderPolicy: false,
+  }),
+);
 
   /**
    * -------------------------------------------------------
