@@ -57,7 +57,7 @@ export function FavoritesPage() {
         <Grid container spacing={2.5}>
           {items.map((item) =>
             item.type === 'bank' ? (
-              <Grid size={{ xs: 12, md: 6 }} key={item._id}>
+              <Grid size={{ xs: 12, md: 6, lg: 4 }} key={item._id}>
                 <BankAccountCard
                   item={item}
                   onEdit={() => navigate(`/banks/${item._id}/edit`)}
