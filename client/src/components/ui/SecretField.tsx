@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Skeleton, Typography } from '@mui/material';
 import { AlertTriangle, Eye, EyeOff } from 'lucide-react';
 import { reportActivity } from '../../crypto/sessionKey';
 import { SENSITIVE_REVEAL_TIMEOUT_MS, type AuditResourceType } from '../../types';
@@ -222,11 +222,12 @@ export function SecretField({
   );
 }
 
+/** Placeholder for one <SecretField>. Uses MUI Skeleton so the shimmer matches every other loading state. */
 export function SecretFieldSkeleton() {
   return (
     <Box>
-      <Box className="skeleton-shimmer" sx={{ width: 120, height: 12, mb: 1 }} />
-      <Box className="skeleton-shimmer" sx={{ height: 44 }} />
+      <Skeleton variant="text" width="24%" height={14} sx={{ mb: 0.5 }} />
+      <Skeleton variant="rectangular" height={44} />
     </Box>
   );
 }
