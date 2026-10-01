@@ -44,7 +44,7 @@ interface VaultContextValue {
 
 const VaultContext = createContext<VaultContextValue | null>(null);
 
-const STORAGE_KEY = 'vaultbank.autolock';
+const STORAGE_KEY = 'passvault.autolock';
 
 function readAutoLock(): AutoLockValue {
   try {

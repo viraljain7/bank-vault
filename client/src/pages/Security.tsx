@@ -46,7 +46,7 @@ export function SecurityPage() {
     setFormError(null);
     try {
       await changePin(form.currentPin, form.pin);
-      toast('Unlock PIN updated securely.');
+      toast('Unlock PIN updated.');
       setPinDialog(false);
       setForm({ currentPin: '', pin: '', confirm: '' });
     } catch (err) {
@@ -73,9 +73,9 @@ export function SecurityPage() {
     <Box className="fade-in" >
       <PageHeader title="Security" subtitle="Protect your vault" />
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 0, mb: 2.5 }}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <Box sx={{ width: 48, height: 48, borderRadius: 1, display: 'grid', placeItems: 'center', bgcolor: '#E7F6EC', color: '#15803D' }}>
+          <Box sx={{ width: 48, height: 48, borderRadius: 0, display: 'grid', placeItems: 'center', bgcolor: '#E6F4F2', color: '#0F766E' }}>
             <ShieldCheck size={24} />
           </Box>
           <Box>
@@ -97,31 +97,31 @@ export function SecurityPage() {
         </Typography>
       </Paper>
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 0, mb: 2.5 }}>
         <Typography variant="subtitle1" sx={{ mb: 1 }}>
           What is stored
         </Typography>
         <Stack spacing={1}>
-          <Alert severity="success" icon={<Fingerprint size={16} />} sx={{ borderRadius: 1 }}>
+          <Alert severity="success" icon={<Fingerprint size={16} />} sx={{ borderRadius: 0 }}>
             Account and card details are AES-256-GCM encrypted in your browser.
           </Alert>
-          <Alert severity="warning" icon={<ShieldCheck size={16} />} sx={{ borderRadius: 1 }}>
-            Card PIN, OTP and 3DS codes are never stored — by design. The CVV is stored encrypted
-            end-to-end and revealed only when you ask.
+          <Alert severity="warning" icon={<ShieldCheck size={16} />} sx={{ borderRadius: 0 }}>
+            Card PINs, OTPs and 3DS codes are never stored. CVV numbers are stored encrypted and
+            only shown when you ask for them.
           </Alert>
-          <Alert severity="info" sx={{ borderRadius: 1 }}>
+          <Alert severity="info" sx={{ borderRadius: 0 }}>
             Audit activity contains actions and timestamps only; never secret values.
           </Alert>
         </Stack>
       </Paper>
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 3 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 0 }}>
         <Typography variant="subtitle1" color="error" sx={{ mb: 0.5 }}>
           Danger zone
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Resetting the vault permanently deletes the unlock key and every stored credential.
-          Data becomes unrecoverable — including for VaultBank.
+          Resetting the vault deletes the unlock key and every stored credential. Nothing can
+          recover them afterwards, including us.
         </Typography>
         <Button variant="outlined" color="error" onClick={() => setResetOpen(true)}>
           Reset vault

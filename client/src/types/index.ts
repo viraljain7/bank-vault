@@ -1,6 +1,6 @@
-/** Shared frontend types mirroring the VaultBank API contract. */
+/** Shared frontend types mirroring the PassVault API contract. */
 
-export type VaultItemType = 'bank' | 'card';
+export type VaultItemType = "bank" | "card";
 
 export interface VaultMetadata {
   bankName?: string;
@@ -49,7 +49,9 @@ export interface CardPayload {
 
 export type DecryptedPayload = BankPayload | CardPayload;
 
-export type PayloadFor<T extends VaultItemType> = T extends 'bank' ? BankPayload : CardPayload;
+export type PayloadFor<T extends VaultItemType> = T extends "bank"
+  ? BankPayload
+  : CardPayload;
 
 /** Input shape for creating/updating a vault credential server-side. */
 export interface CreateVaultItemInput {
@@ -67,23 +69,23 @@ export interface VaultOverview {
   banks: number;
   cards: number;
   favorites: number;
-  status: 'protected';
+  status: "protected";
 }
 
 export type AuditAction =
-  | 'CREATE'
-  | 'UPDATE'
-  | 'DELETE'
-  | 'REVEAL'
-  | 'COPY'
-  | 'LOGIN'
-  | 'LOCK'
-  | 'UNLOCK'
-  | 'SETUP'
-  | 'SEARCH'
-  | 'READ';
+  | "CREATE"
+  | "UPDATE"
+  | "DELETE"
+  | "REVEAL"
+  | "COPY"
+  | "LOGIN"
+  | "LOCK"
+  | "UNLOCK"
+  | "SETUP"
+  | "SEARCH"
+  | "READ";
 
-export type AuditResourceType = 'bank' | 'card' | 'vault' | 'key';
+export type AuditResourceType = "bank" | "card" | "vault" | "key";
 
 export interface AuditEvent {
   action: AuditAction;
@@ -126,22 +128,22 @@ export interface ApiErrorBody {
 }
 
 export const AUTO_LOCK_OPTIONS = [
-  { value: '1m', label: '1 minute' },
-  { value: '5m', label: '5 minutes' },
-  { value: '15m', label: '15 minutes' },
-  { value: '30m', label: '30 minutes' },
-  { value: 'never', label: 'Never' },
+  { value: "1m", label: "1 minute" },
+  { value: "5m", label: "5 minutes" },
+  { value: "15m", label: "15 minutes" },
+  { value: "30m", label: "30 minutes" },
+  { value: "never", label: "Never" },
 ] as const;
 
-export type AutoLockValue = (typeof AUTO_LOCK_OPTIONS)[number]['value'];
+export type AutoLockValue = (typeof AUTO_LOCK_OPTIONS)[number]["value"];
 
-export const AUTO_LOCK_DEFAULT: AutoLockValue = '15m';
+export const AUTO_LOCK_DEFAULT: AutoLockValue = "15m";
 
-export const AUTO_LOCK_MS: Record<Exclude<AutoLockValue, 'never'>, number> = {
-  '1m': 60_000,
-  '5m': 5 * 60_000,
-  '15m': 15 * 60_000,
-  '30m': 30 * 60_000,
+export const AUTO_LOCK_MS: Record<Exclude<AutoLockValue, "never">, number> = {
+  "1m": 60_000,
+  "5m": 5 * 60_000,
+  "15m": 15 * 60_000,
+  "30m": 30 * 60_000,
 };
 
 /** Auto-hide high-sensitivity revealed values after this long (ms). */

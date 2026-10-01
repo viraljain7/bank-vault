@@ -55,7 +55,7 @@ export function SearchPage() {
             '& .MuiOutlinedInput-root': {
               height: 48,
               bgcolor: 'background.paper',
-              borderRadius: 1.5,
+              borderRadius: 0,
             },
           }}
         />
@@ -101,7 +101,6 @@ export function SearchPage() {
                     onToggleFavorite={() =>
                       mutations.toggleFavorite.mutate({ id: item._id, favorite: !item.favorite })
                     }
-                    onOpen={() => navigate(`/cards/${item._id}`)}
                   />
                 </Grid>
               ),

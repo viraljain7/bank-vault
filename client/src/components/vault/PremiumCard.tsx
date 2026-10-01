@@ -22,7 +22,7 @@ export function PremiumCard({
   empty?: boolean;
   size?: 'sm' | 'md';
 }) {
-  const brandLabel = brand ?? card?.cardBrand ?? 'VaultBank';
+  const brandLabel = brand ?? card?.cardBrand ?? 'PassVault';
   const number = card?.cardNumber;
   const isSm = size === 'sm';
   const [reveal, setReveal] = useState({ number: false, cvv: false, expiry: false });
@@ -52,8 +52,8 @@ export function PremiumCard({
               Issuing bank
             </Typography>
           )}
-          <Typography sx={{ fontWeight: 800, letterSpacing: 0.5, fontSize: isSm ? 16 : 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {empty ? 'VaultBank' : brandLabel}
+          <Typography sx={{ fontWeight: 700, letterSpacing: 0.2, fontSize: isSm ? 16 : 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {empty ? 'PassVault' : brandLabel}
           </Typography>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: isSm ? 0.75 : 1, flexShrink: 0 }}>
@@ -137,7 +137,7 @@ function CardBrandLogo({ brand, isSm }: { brand: string; isSm: boolean }) {
 
   if (b === 'visa') {
     return (
-      <Typography sx={{ fontSize: isSm ? 14 : 19, fontStyle: 'italic', fontWeight: 900, letterSpacing: 1, color: '#fff', lineHeight: 1, opacity: 0.95 }}>
+      <Typography sx={{ fontSize: isSm ? 14 : 19, fontStyle: 'italic', fontWeight: 700, letterSpacing: 0.5, color: '#fff', lineHeight: 1, opacity: 0.95 }}>
         VISA
       </Typography>
     );
@@ -150,7 +150,7 @@ function CardBrandLogo({ brand, isSm }: { brand: string; isSm: boolean }) {
           <Box sx={{ position: 'absolute', left: 0, top: 0, width: isSm ? 13 : 17, height: '100%', borderRadius: '50%', bgcolor: '#EB001B', opacity: 0.92 }} />
           <Box sx={{ position: 'absolute', left: '45%', top: 0, width: isSm ? 13 : 17, height: '100%', borderRadius: '50%', bgcolor: '#F79E1B', opacity: 0.92, mixBlendMode: 'screen' }} />
         </Box>
-        <Typography sx={{ fontSize: isSm ? 10 : 13, fontWeight: 800, letterSpacing: 0.4, color: '#fff', lineHeight: 1 }}>
+        <Typography sx={{ fontSize: isSm ? 10 : 13, fontWeight: 700, letterSpacing: 0.2, color: '#fff', lineHeight: 1 }}>
           mastercard
         </Typography>
       </Box>
@@ -159,7 +159,7 @@ function CardBrandLogo({ brand, isSm }: { brand: string; isSm: boolean }) {
 
   if (b === 'american express') {
     return (
-      <Box sx={{ bgcolor: '#2E77BC', px: isSm ? 0.75 : 1.25, py: 0.25, borderRadius: 0.75, fontSize: isSm ? 8.5 : 12, fontWeight: 800, letterSpacing: 0.5, color: '#fff', lineHeight: 1.6, whiteSpace: 'nowrap' }}>
+      <Box sx={{ bgcolor: '#2E77BC', px: isSm ? 0.75 : 1.25, py: 0.25, borderRadius: 0, fontSize: isSm ? 8.5 : 12, fontWeight: 700, letterSpacing: 0.2, color: '#fff', lineHeight: 1.6, whiteSpace: 'nowrap' }}>
         AMEX
       </Box>
     );
@@ -167,7 +167,7 @@ function CardBrandLogo({ brand, isSm }: { brand: string; isSm: boolean }) {
 
   if (b === 'rupay') {
     return (
-      <Typography sx={{ fontSize: isSm ? 12 : 16, fontWeight: 800, color: '#fff', lineHeight: 1 }}>
+      <Typography sx={{ fontSize: isSm ? 12 : 16, fontWeight: 700, color: '#fff', lineHeight: 1 }}>
         ru<Box component="span" sx={{ color: '#F57C00' }}>Pay</Box>
       </Typography>
     );
@@ -175,7 +175,7 @@ function CardBrandLogo({ brand, isSm }: { brand: string; isSm: boolean }) {
 
   if (b === 'discover') {
     return (
-      <Typography sx={{ fontSize: isSm ? 12 : 16, fontWeight: 800, letterSpacing: 0.5, color: '#fff', lineHeight: 1 }}>
+      <Typography sx={{ fontSize: isSm ? 12 : 16, fontWeight: 700, letterSpacing: 0.2, color: '#fff', lineHeight: 1 }}>
         DISCOVER
       </Typography>
     );
@@ -210,7 +210,7 @@ function RevealToggleIcon({
         color: 'rgba(255,255,255,0.85)',
         cursor: 'pointer',
         padding: '3px',
-        borderRadius: 6,
+        borderRadius: 0,
         flexShrink: 0,
         lineHeight: 0,
         '&:hover': { background: 'rgba(255,255,255,0.28)' },

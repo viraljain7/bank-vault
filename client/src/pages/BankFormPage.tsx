@@ -70,7 +70,7 @@ export function BankFormPage({ mode }: { mode: 'create' | 'edit' }) {
         title={editing ? 'Edit Bank Account' : 'Add Bank Account'}
         subtitle={editing ? 'Update the encrypted credentials below' : 'Securely stored with end-to-end encryption'}
       />
-      <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 3.5 }, borderRadius: 3 }}>
+      <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 3.5 }, borderRadius: 0 }}>
         <BankForm
           defaultValues={
             editing

@@ -15,7 +15,7 @@ export function PremiumBankCard({
   empty?: boolean;
   size?: 'sm' | 'md';
 }) {
-  const bankName = bank?.bankName ?? 'VaultBank';
+  const bankName = bank?.bankName ?? 'PassVault';
   const [reveal, setReveal] = useState({ account: false, customerId: false });
   const isSm = size === 'sm';
 
@@ -44,8 +44,8 @@ export function PremiumBankCard({
               Bank account
             </Typography>
           )}
-          <Typography sx={{ fontWeight: 800, letterSpacing: 0.5, fontSize: isSm ? 16 : 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {empty ? 'VaultBank' : bankName}
+          <Typography sx={{ fontWeight: 700, letterSpacing: 0.2, fontSize: isSm ? 16 : 20, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {empty ? 'PassVault' : bankName}
           </Typography>
         </Box>
         <Building2 size={isSm ? 20 : 24} style={{ color: 'rgba(255,255,255,0.85)', flexShrink: 0 }} />
@@ -138,7 +138,7 @@ function RevealToggleIcon({
         color: 'rgba(255,255,255,0.85)',
         cursor: 'pointer',
         padding: '3px',
-        borderRadius: 6,
+        borderRadius: 0,
         flexShrink: 0,
         lineHeight: 0,
         '&:hover': { background: 'rgba(255,255,255,0.28)' },

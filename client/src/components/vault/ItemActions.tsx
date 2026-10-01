@@ -76,7 +76,7 @@ export function TypeChip({ type }: { type: VaultItem['type'] }) {
       size="small"
       sx={{
         bgcolor: type === 'bank' ? '#EBEFFF' : '#E7F6EC',
-        color: type === 'bank' ? '#1D4ED8' : '#15803D',
+        color: type === 'bank' ? '#185A3E' : '#0F766E',
         fontWeight: 600,
       }}
     />

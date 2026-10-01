@@ -69,7 +69,7 @@ export function CardFormPage({ mode }: { mode: 'create' | 'edit' }) {
         title={editing ? 'Edit Card' : 'Add Card'}
         subtitle={editing ? 'Update the encrypted card details below' : 'CVV stored encrypted end-to-end'}
       />
-      <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 3.5 }, borderRadius: 3 }}>
+      <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 3.5 }, borderRadius: 0 }}>
         <CardForm
           defaultValues={
             editing && decrypted

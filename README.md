@@ -53,12 +53,12 @@ bank/
 
 ## Tech stack
 
-| Area     | Stack |
-|----------|-------|
-| Frontend | React 18, TypeScript, Vite 6, MUI v7, Tailwind 3, React Router 6, React Hook Form + zod, TanStack Query, Clerk React, lucide-react |
-| Backend  | Node 20+, Express 4, TypeScript (NodeNext), Mongoose 8, `@clerk/express` JWT verification, zod, helmet, cors, express-rate-limit, pino, compression |
-| Data     | MongoDB, `mongodb-memory-server` for tests |
-| Tests    | Vitest (server + client) |
+| Area     | Stack                                                                                                                                                |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Frontend | React 18, TypeScript, Vite 6, MUI v7, Tailwind 3, React Router 6, React Hook Form + zod, TanStack Query, Clerk React, lucide-react                   |
+| Backend  | Node 20+, Express 4, TypeScript (NodeNext), Mongoose 8,`@clerk/express` JWT verification, zod, helmet, cors, express-rate-limit, pino, compression |
+| Data     | MongoDB,`mongodb-memory-server` for tests                                                                                                          |
+| Tests    | Vitest (server + client)                                                                                                                             |
 
 ---
 
@@ -140,27 +140,28 @@ npm run dev:client     # SPA only
 All routes (except `/health`) require a valid Clerk JWT (`Authorization: Bearer <token>`).
 Responses are wrapped as `{ success, data, message? }`.
 
-| Method   | Path                                  | Purpose                                    |
-|----------|---------------------------------------|--------------------------------------------|
-| `GET`    | `/api/v1/vault`                       | List credentials (filter: `type`, `favorite`, `q`) |
-| `POST`   | `/api/v1/vault`                       | Create a credential (encrypted payload)    |
-| `PATCH`  | `/api/v1/vault/:id`                   | Update a credential (re-encrypted ciphertext, new IV) |
-| `DELETE` | `/api/v1/vault/:id`                   | Delete a credential                        |
-| `GET`    | `/api/v1/vault/overview`              | Counts for the dashboard                   |
-| `GET`    | `/api/v1/vault/:id`                   | Fetch a single credential                  |
-| `GET`    | `/api/v1/keys`                        | Fetch the wrapped vault key                |
-| `PUT`    | `/api/v1/keys`                        | Upsert the wrapped vault key               |
-| `DELETE` | `/api/v1/keys`                        | Delete the vault key (vault reset)         |
-| `GET`    | `/api/v1/activity`                    | Audit trail (non-sensitive)                |
-| `POST`   | `/api/v1/activity`                    | Record an audit event                      |
-| `GET`    | `/api/v1/security/status`             | Vault status (`hasUnlockKey`, audit count) |
-| `GET`    | `/health`                             | Liveness (no auth)                         |
+| Method     | Path                        | Purpose                                                 |
+| ---------- | --------------------------- | ------------------------------------------------------- |
+| `GET`    | `/api/v1/vault`           | List credentials (filter:`type`, `favorite`, `q`) |
+| `POST`   | `/api/v1/vault`           | Create a credential (encrypted payload)                 |
+| `PATCH`  | `/api/v1/vault/:id`       | Update a credential (re-encrypted ciphertext, new IV)   |
+| `DELETE` | `/api/v1/vault/:id`       | Delete a credential                                     |
+| `GET`    | `/api/v1/vault/overview`  | Counts for the dashboard                                |
+| `GET`    | `/api/v1/vault/:id`       | Fetch a single credential                               |
+| `GET`    | `/api/v1/keys`            | Fetch the wrapped vault key                             |
+| `PUT`    | `/api/v1/keys`            | Upsert the wrapped vault key                            |
+| `DELETE` | `/api/v1/keys`            | Delete the vault key (vault reset)                      |
+| `GET`    | `/api/v1/activity`        | Audit trail (non-sensitive)                             |
+| `POST`   | `/api/v1/activity`        | Record an audit event                                   |
+| `GET`    | `/api/v1/security/status` | Vault status (`hasUnlockKey`, audit count)            |
+| `GET`    | `/health`                 | Liveness (no auth)                                      |
 
 ---
 
 ## Security model
 
 ### End-to-end encryption
+
 1. On setup, the browser generates a random 32-byte vault key and wraps it with your PIN
    (PBKDF2-SHA256, 210,000 iterations) into `salt + iv + wrappedKey`.
 2. The wrapped blob is stored via `PUT /api/v1/keys`. The server encrypts the blob again with
@@ -171,6 +172,7 @@ Responses are wrapped as `{ success, data, message? }`.
    vault key lives **only in memory** while unlocked.
 
 ### Key recovery caveat (read carefully)
+
 Because the vault key never leaves the client, **if you forget your PIN, your data is
 unrecoverable — including by the operator**. There is no password reset for the vault (the
 built-in "Reset vault" deletes the key and all credentials). This is the standard trade-off of
@@ -178,12 +180,14 @@ client-side encryption and is the reason VaultBank recommends your OS-backed pas
 store the PIN.
 
 ### What is never stored
+
 - ATM/card PIN, OTP, and 3DS codes (the CVC/CVV you enter is stored encrypted end-to-end, like the
   card number, and is never visible to the server in plaintext)
 - Any plaintext secret — the API rejects payloads containing plaintext secret-shaped fields
 - The raw vault key in any form the server could decrypt by itself
 
 ### Isolation & abuse protection
+
 - Every record carries `userId` from the verified Clerk JWT; all reads/writes filter by it.
 - Express-rate-limit presets: general, vault-write, sensitive-read, key, and strict limiter.
 - `helmet`, strict CORS origin allow-list, pino redaction, `TRUST_PROXY` opt-in only when
@@ -194,6 +198,7 @@ store the PIN.
 ## Deployment
 
 ### Server
+
 The server builds to `server/dist` (may be run with `npm start`). Recommended:
 
 - **Render / Railway / Fly.io** — build command `npm run build`, start command `npm start`.
@@ -206,6 +211,7 @@ The server builds to `server/dist` (may be run with `npm start`). Recommended:
 > build and runtime.
 
 ### Client
+
 `npm run build -w client` emits a static bundle in `client/dist` that can be served by any
 static host (Vercel, Netlify, S3+CloudFront, nginx). Requirements:
 

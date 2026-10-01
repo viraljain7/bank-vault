@@ -115,7 +115,7 @@ export function SecretField({
           gap: 1,
           border: '1px solid',
           borderColor: 'divider',
-          borderRadius: 1,
+          borderRadius: 0,
           px: 1.5,
           py: 1,
           bgcolor: 'background.paper',
@@ -151,10 +151,10 @@ export function SecretField({
               border: 'none',
               background: 'transparent',
               cursor: 'pointer',
-              color: '#6B7280',
+              color: '#6E6862',
               display: 'inline-flex',
               padding: 4,
-              borderRadius: 8,
+              borderRadius: 0,
             }}
           >
             <Eye size={18} />
@@ -169,10 +169,10 @@ export function SecretField({
               border: 'none',
               background: 'transparent',
               cursor: 'pointer',
-              color: '#6B7280',
+              color: '#6E6862',
               display: 'inline-flex',
               padding: 4,
-              borderRadius: 8,
+              borderRadius: 0,
             }}
           >
             <EyeOff size={18} />

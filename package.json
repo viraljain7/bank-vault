@@ -1,8 +1,8 @@
 {
-  "name": "vaultbank",
+  "name": "PassVault",
   "version": "1.0.0",
   "private": true,
-  "description": "VaultBank - Your financial credentials. Secured.",
+  "description": "PassVault - Your financial credentials. Secured.",
   "workspaces": [
     "client",
     "server"

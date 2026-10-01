@@ -74,7 +74,7 @@ export function CardForm({
     <form onSubmit={handleSubmit((data) => onSubmit(data))} noValidate>
       <Grid container spacing={2.5} >
         <Grid size={{ xs: 12 }}>
-          <Alert severity="info" icon={false} sx={{ borderRadius: 1 }}>
+          <Alert severity="info" icon={false} sx={{ borderRadius: 0 }}>
             <strong>Security code:</strong> The CVV is encrypted in your browser and stored as ciphertext
             — never visible to our servers.
           </Alert>
@@ -220,7 +220,7 @@ export function CardForm({
         </Grid>
 
         <Grid size={{ xs: 12 }}>
-          <Alert severity="info" icon={false} sx={{ borderRadius: 1 }}>
+          <Alert severity="info" icon={false} sx={{ borderRadius: 0 }}>
             <strong>Card PIN, OTP and 3DS codes are never saved.</strong> The CVV is encrypted end-to-end
             and revealed only when you want to see it.
           </Alert>

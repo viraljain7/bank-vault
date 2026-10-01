@@ -23,14 +23,14 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error): void {
     // Deliberately omit the error stack from logs that could contain secrets.
-    console.error('[VaultBank] UI error:', error.message);
+    console.error('[PassVault] UI error:', error.message);
   }
 
   render(): ReactNode {
     if (this.state.hasError) {
       return (
         <Box sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', bgcolor: 'background.default', p: 2 }}>
-          <Paper elevation={0} sx={{ p: 5, borderRadius: 1, maxWidth: 420, textAlign: 'center' }}>
+          <Paper elevation={0} sx={{ p: 5, borderRadius: 0, maxWidth: 420, textAlign: 'center' }}>
             <Box
               sx={{
                 width: 72,
@@ -40,8 +40,8 @@ export class ErrorBoundary extends Component<Props, State> {
                 placeItems: 'center',
                 mx: 'auto',
                 mb: 2,
-                bgcolor: '#FEF2F2',
-                color: '#DC2626',
+                bgcolor: '#FBEFEE',
+                color: '#C42B2B',
               }}
             >
               <ShieldAlert size={32} />

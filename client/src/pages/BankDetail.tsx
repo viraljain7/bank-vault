@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, Grid, Paper, Typography } from '@mui/material';
-import { AtSign, Hash, IdCard, KeyRound, Building2, Lock, ShieldCheck } from 'lucide-react';
+import { Building2 } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
 import { DetailSkeleton } from '../components/ui/Skeletons';
-import { SecretField, SecretFieldSkeleton } from '../components/ui/SecretField';
+import { SecretFieldSkeleton } from '../components/ui/SecretField';
+import { BankFields } from '../components/vault/VaultFields';
 import { useVaultItem, useVaultMutations } from '../hooks/useVaultQueries';
 import { useVault } from '../contexts/VaultContext';
 import { useDecrypt } from '../hooks/useDecrypt';
@@ -52,34 +53,43 @@ export function BankDetailPage() {
   }
 
   return (
-    <Box className="fade-in" >
+    <Box className="fade-in">
       <PageHeader
         title={payload?.nickname || item.title || 'Bank account'}
         subtitle={payload?.bankName ?? item.metadata.bankName}
         backTo="/banks"
         actions={
           <>
-            <Button variant="outlined" startIcon={<Edit3 size={18} />} onClick={() => navigate(`/banks/${item._id}/edit`)}>
+            <Button
+              variant="outlined"
+              startIcon={<Edit3 size={18} />}
+              onClick={() => navigate(`/banks/${item._id}/edit`)}
+            >
               Edit
             </Button>
-            <Button variant="outlined" color="error" startIcon={<Trash2 size={18} />} onClick={() => setConfirmOpen(true)}>
+            <Button
+              variant="outlined"
+              color="error"
+              startIcon={<Trash2 size={18} />}
+              onClick={() => setConfirmOpen(true)}
+            >
               Delete
             </Button>
           </>
         }
       />
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 3 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 0 }}>
         <Box
           sx={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: 1.5,
-            borderRadius: 1,
+            borderRadius: 0,
             px: 1.75,
             py: 1.25,
             mb: 2.5,
-            background: 'linear-gradient(135deg, #EAF0FF 0%, #F5F8FF 100%)',
+            bgcolor: 'primary.light',
             border: '1px solid',
             borderColor: '#DCE6FD',
             color: 'primary.main',
@@ -90,15 +100,14 @@ export function BankDetailPage() {
             sx={{
               width: 32,
               height: 32,
-              borderRadius: 1,
+              borderRadius: 0,
               display: 'grid',
               placeItems: 'center',
               bgcolor: 'primary.main',
               color: '#fff',
             }}
           >
-        <Building2 size={17} style={{ color: 'rgba(255,255,255,0.85)', flexShrink: 0 }} />
-
+            <Building2 size={17} style={{ color: 'rgba(255,255,255,0.85)', flexShrink: 0 }} />
           </Box>
           <Typography variant="body2" sx={{ color: 'primary.dark', fontWeight: 700 }}>
             {item.metadata.bankName ?? item.title}
@@ -106,59 +115,21 @@ export function BankDetailPage() {
         </Box>
 
         {payload ? (
-          <Grid container spacing={2.5}>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <SecretField label="Account Number" icon={<Hash size={16} />} value={payload.accountNumber} resourceType="bank" resourceId={id} emptyLabel="" />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <SecretField label="Customer ID" icon={<IdCard size={16} />} value={payload.customerId} resourceType="bank" resourceId={id} sensitivity="high" />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <SecretField label="Net Banking Username" icon={<AtSign size={16} />} value={payload.netbankingUsername} resourceType="bank" resourceId={id} />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <SecretField label="Net Banking Password" icon={<KeyRound size={16} />} value={payload.netbankingPassword} resourceType="bank" resourceId={id} sensitivity="high" />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }}>
-              <SecretField label="Profile Password" icon={<Lock size={16} />} value={payload.profilePassword} resourceType="bank" resourceId={id} sensitivity="high" />
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.75,
-                  borderRadius: 1,
-                  px: 1.25,
-                  py: 1,
-                  bgcolor: '#ECFDF3',
-                  color: '#15803D',
-                  typography: 'body2',
-                }}
-              >
-                <ShieldCheck size={15} />
-                This credential is decrypted only in your browser.
-              </Box>
-            </Grid>
-            {payload.notes && (
-              <Grid size={{ xs: 12 }}>
-                <Box>
-                  <Box component="span" sx={{ typography: 'body2', color: 'text.secondary' }}>
-                    Notes
-                  </Box>
-                  <Paper variant="outlined" sx={{ mt: 0.5, p: 1.5, borderRadius: 1 }}>
-                    {payload.notes}
-                  </Paper>
-                </Box>
-              </Grid>
-            )}
-          </Grid>
+          <BankFields payload={payload} resourceId={id} />
         ) : (
           <Grid container spacing={2.5}>
-            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
-            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
-            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
-            <Grid size={{ xs: 12, sm: 6 }}><SecretFieldSkeleton /></Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretFieldSkeleton />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretFieldSkeleton />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretFieldSkeleton />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <SecretFieldSkeleton />
+            </Grid>
           </Grid>
         )}
       </Paper>

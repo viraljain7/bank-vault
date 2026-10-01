@@ -76,7 +76,6 @@ export function FavoritesPage() {
                   onToggleFavorite={() =>
                     mutations.toggleFavorite.mutate({ id: item._id, favorite: false })
                   }
-                  onOpen={() => navigate(`/cards/${item._id}`)}
                 />
               </Grid>
             ),

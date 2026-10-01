@@ -31,15 +31,14 @@ export function EmptyState({
     >
       <Box
         sx={{
-          width: 80,
-          height: 80,
-          borderRadius: 1,
+          width: 60,
+          height: 60,
+          borderRadius: 0,
           display: 'grid',
           placeItems: 'center',
-          background:
-            'radial-gradient(120% 120% at 30% 0%, #F5F8FF 0%, #EBF0FF 100%)',
-          border: '1px dashed',
-          borderColor: '#B8C7EC',
+          bgcolor: 'primary.light',
+          border: '1px solid',
+          borderColor: 'divider',
           color: 'primary.main',
           mb: 0.5,
         }}
@@ -50,7 +49,7 @@ export function EmptyState({
         <Chip
           label={badge}
           size="small"
-          sx={{ bgcolor: '#EBF0FF', color: '#1D4ED8', fontWeight: 600 }}
+          sx={{ bgcolor: '#EAF3EE', color: '#185A3E', fontWeight: 600 }}
         />
       )}
       <Box>

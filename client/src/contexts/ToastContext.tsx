@@ -45,7 +45,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           sx={{
             minWidth: 320,
             maxWidth: 480,
-            borderRadius: 8,
+            borderRadius: 0,
             boxShadow: '0 12px 32px rgba(15,23,42,0.18)',
             '& .MuiAlert-message': { fontWeight: 500 },
           }}

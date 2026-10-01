@@ -15,142 +15,112 @@ import { useToast } from '../contexts/ToastContext';
 import { toApiError } from '../lib/api';
 import type { VaultItem } from '../types';
 
-const STAT_TONES = {
-  banks: {
-    bg: 'linear-gradient(135deg, #EEF3FF 0%, #FFFFFF 100%)',
-    line: 'linear-gradient(90deg, #2563EB, rgba(37,99,235,0))',
-    border: 'rgba(37,99,235,0.16)',
-    chip: '#E0E9FF',
-    text: '#2563EB',
-    glow: 'rgba(37,99,235,0.18)',
-  },
-  cards: {
-    bg: 'linear-gradient(135deg, #ECFDF5 0%, #FFFFFF 100%)',
-    line: 'linear-gradient(90deg, #059669, rgba(5,150,105,0))',
-    border: 'rgba(5,150,105,0.16)',
-    chip: '#D9F4E6',
-    text: '#059669',
-    glow: 'rgba(5,150,105,0.16)',
-  },
-  favorites: {
-    bg: 'linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%)',
-    line: 'linear-gradient(90deg, #B45309, rgba(180,83,9,0))',
-    border: 'rgba(180,83,9,0.16)',
-    chip: '#FCEFC7',
-    text: '#B45309',
-    glow: 'rgba(180,83,9,0.15)',
-  },
-  vault: {
-    bg: 'linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 100%)',
-    line: 'linear-gradient(90deg, #6D28D9, rgba(109,40,217,0))',
-    border: 'rgba(109,40,217,0.16)',
-    chip: '#EBE4FD',
-    text: '#6D28D9',
-    glow: 'rgba(109,40,217,0.16)',
-  },
+type Tone = { chip: string; text: string };
+
+const STAT_TONES: Record<'cards' | 'favorites', Tone> = {
+  cards: { chip: '#E6F4F2', text: '#0F766E' },
+  favorites: { chip: '#FBF3E4', text: '#B45309' },
 };
 
+/**
+ * Two treatments, not four colours. The filled tiles carry the eye and sit on
+ * opposite corners of the grid so the row reads as one rhythm; the plain tiles
+ * stay on the warm surface. No gradients — the impact is the size of the
+ * numeral against a solid field.
+ */
 function StatCard({
   icon,
   label,
   value,
-  tone,
   hint,
+  tone,
+  fill,
+  live,
 }: {
   icon: React.ReactNode;
   label: string;
   value: number | string;
-  tone: { bg: string; line: string; border: string; chip: string; text: string; glow: string };
   hint?: string;
+  tone?: Tone;
+  fill?: string;
+  live?: boolean;
 }) {
+  const solid = Boolean(fill);
+
   return (
     <Paper
       elevation={0}
       sx={{
         position: 'relative',
-        overflow: 'hidden',
-        p: 2.5,
-        pr: { xs: 2.5, sm: 3 },
+        p: { xs: 2.5, sm: 3 },
         height: '100%',
-        borderRadius: 1.5,
-        background: tone.bg,
-        border: '1px solid',
-        borderColor: tone.border,
-        transition: 'transform 200ms ease, box-shadow 200ms ease',
-        '&:hover': {
-          transform: 'translateY(-3px)',
-          boxShadow: `0 16px 34px -8px ${tone.glow}`,
-        },
+        borderRadius: 0,
+        bgcolor: solid ? fill : 'background.paper',
+        border: solid ? '1px solid rgba(255,255,255,0.08)' : '1px solid',
+        borderColor: solid ? undefined : 'divider',
+        color: solid ? '#fff' : 'text.primary',
+        transition: solid ? 'none' : 'border-color 160ms ease',
+        '&:hover': solid ? {} : { borderColor: '#CFC8BD' },
       }}
     >
-      <Box sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: tone.line }} />
-      <Box
-        sx={{
-          position: 'absolute',
-          top: -38,
-          right: -38,
-          width: 130,
-          height: 130,
-          borderRadius: '50%',
-          background: `radial-gradient(circle, ${tone.glow} 0%, transparent 68%)`,
-          pointerEvents: 'none',
-        }}
-      />
-
-      <Box
-        sx={{
-          position: 'absolute',
-          right: 18,
-          bottom: 18,
-          width: 44,
-          height: 44,
-          borderRadius: 1.5,
-          display: 'grid',
-          placeItems: 'center',
-          bgcolor: tone.chip,
-          color: tone.text,
-          boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.65)',
-        }}
-      >
-        {icon}
-      </Box>
-      {hint && (
-        <Stack direction="row" justifyContent="flex-end">
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+        <Box
+          sx={{
+            display: 'grid',
+            placeItems: 'center',
+            width: 38,
+            height: 38,
+            borderRadius: 0,
+            bgcolor: solid ? 'rgba(255,255,255,0.14)' : tone?.chip,
+            color: solid ? '#fff' : tone?.text,
+          }}
+        >
+          {icon}
+        </Box>
+        <Typography
+          variant="overline"
+          sx={{ color: solid ? 'rgba(255,255,255,0.85)' : 'text.secondary' }}
+        >
+          {label}
+        </Typography>
+        {live && (
           <Box
+            className="pulse-dot"
             sx={{
-              px: 1.25,
-              py: 0.4,
-              borderRadius: 6,
-              bgcolor: tone.chip,
-              color: tone.text,
-              fontSize: 10.5,
-              fontWeight: 800,
-              letterSpacing: 0.6,
-              textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
+              width: 7,
+              height: 7,
+              borderRadius: '50%',
+              bgcolor: '#3DD68C',
+              ml: 'auto',
+              mr: 0.25,
             }}
-          >
-            {hint}
-          </Box>
-        </Stack>
-      )}
+          />
+        )}
+      </Box>
 
       <Typography
+        className="tabular"
         sx={{
-          mt: 2.25,
-          pr: 6.5,
-          fontSize: { xs: '1.8rem', sm: '2rem' },
-          fontWeight: 800,
-          letterSpacing: '-0.03em',
+          mt: 2.5,
+          fontSize: solid
+            ? { xs: '2.75rem', sm: '3.25rem' }
+            : { xs: '1.875rem', sm: '2.125rem' },
+          fontWeight: 700,
           lineHeight: 1,
-          color: '#0F172A',
+          color: solid ? '#fff' : 'text.primary',
         }}
       >
         {value}
       </Typography>
-      <Typography variant="body2" fontWeight={700} sx={{ color: 'text.secondary', mt: 0.75, pr: 6.5 }}>
-        {label}
-      </Typography>
+
+      {hint && (
+        <Typography
+          variant="caption"
+          sx={{ display: 'block', mt: 1.25, color: solid ? 'rgba(255,255,255,0.82)' : 'text.secondary' }}
+        >
+          {hint}
+        </Typography>
+      )}
     </Paper>
   );
 }
@@ -207,7 +177,7 @@ export function DashboardPage() {
         >
           <Typography variant="h1">{greeting()}, {firstName}</Typography>
           <Typography variant="body2" sx={{ mt: 0.5 }}>
-            Everything in your vault is encrypted before it reaches the server.
+            Items are encrypted on this device before they are sent to the server.
           </Typography>
         </Box>
         <Stack direction="row" spacing={1.5}>
@@ -220,19 +190,44 @@ export function DashboardPage() {
         </Stack>
       </Stack>
 
-      {/* Stats */}
+      {/* Stats — filled tile top-left and bottom-right, plain tiles between */}
       <Grid container spacing={2.5}>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<Landmark size={21} />} label="Bank Accounts" value={overview.data?.banks ?? 0} tone={STAT_TONES.banks} hint={`${totalCount} total`} />
+        <Grid size={{ xs: 12, md: 6 }}>
+          <StatCard
+            icon={<Landmark size={20} />}
+            label="Bank Accounts"
+            value={overview.data?.banks ?? 0}
+            hint={`${totalCount} items saved in total`}
+            fill="#1F6B4A"
+          />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<CreditCard size={21} />} label="Cards" value={overview.data?.cards ?? 0} tone={STAT_TONES.cards} hint="AES-256" />
+        <Grid size={{ xs: 12, md: 6 }}>
+          <StatCard
+            icon={<CreditCard size={20} />}
+            label="Cards"
+            value={overview.data?.cards ?? 0}
+            hint="CVV numbers stored encrypted"
+            tone={STAT_TONES.cards}
+          />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<Star size={21} />} label="Favorites" value={overview.data?.favorites ?? 0} tone={STAT_TONES.favorites} hint="Quick access" />
+        <Grid size={{ xs: 12, md: 6 }}>
+          <StatCard
+            icon={<Star size={20} />}
+            label="Favorites"
+            value={overview.data?.favorites ?? 0}
+            hint="Starred for quick access"
+            tone={STAT_TONES.favorites}
+          />
         </Grid>
-        <Grid size={{ xs: 12, sm: 6, lg: 3 }}>
-          <StatCard icon={<ShieldCheck size={21} />} label="Vault Status" value="Protected" tone={STAT_TONES.vault} hint={phase === 'unlocked' ? 'Unlocked' : 'Locked'} />
+        <Grid size={{ xs: 12, md: 6 }}>
+          <StatCard
+            icon={<ShieldCheck size={20} />}
+            label="Vault Status"
+            value={phase === 'unlocked' ? 'Unlocked' : 'Protected'}
+            hint={phase === 'unlocked' ? 'Tap Protected above to lock' : 'Nothing to unlock'}
+            fill="#1C1A18"
+            live={phase === 'unlocked'}
+          />
         </Grid>
       </Grid>
 
@@ -243,22 +238,22 @@ export function DashboardPage() {
           mt: 2.5,
           p: 2,
           px: 2.5,
-          borderRadius: 1,
+          borderRadius: 0,
           display: 'flex',
           alignItems: 'center',
           gap: 2,
-          background: 'linear-gradient(90deg, #F8FAFC 0%, #EBF0FF 100%)',
+          bgcolor: 'background.paper',
           border: '1px solid',
-          borderColor: '#DCE4F8',
+          borderColor: 'divider',
         }}
       >
-        <Box sx={{ width: 40, height: 40, borderRadius: 1, display: 'grid', placeItems: 'center', bgcolor: 'primary.main', color: '#fff', flexShrink: 0 }}>
+        <Box sx={{ width: 40, height: 40, borderRadius: 0, display: 'grid', placeItems: 'center', bgcolor: 'primary.main', color: '#fff', flexShrink: 0 }}>
           <LockKeyhole size={20} />
         </Box>
         <Box sx={{ flex: 1 }}>
           <Typography variant="subtitle2">End-to-end encrypted vault</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mt: 0.25 }}>
-            AES-256-GCM client-side encryption · PBKDF2-SHA256 unlock key (210,000 rounds) · CVV encrypted end-to-end · PIN, OTP & 3DS never stored
+            Encrypted with AES-256-GCM on this device. CVV numbers are stored encrypted too, and PINs, OTPs and 3DS codes are never stored at all.
           </Typography>
         </Box>
         <Button
@@ -276,7 +271,7 @@ export function DashboardPage() {
         <Box>
           <Typography variant="h3">Recent Credentials</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-            Your most recently updated vault items
+            The last four items you changed
           </Typography>
         </Box>
         <Button variant="text" size="small" onClick={() => navigate('/activity')}>
@@ -285,11 +280,11 @@ export function DashboardPage() {
       </Stack>
 
       {isEmpty || recent.length === 0 ? (
-        <Paper elevation={0} sx={{ borderRadius: 1, mt: 1 }}>
+        <Paper elevation={0} sx={{ borderRadius: 0, mt: 1 }}>
           <EmptyState
             icon={<LockKeyhole size={30} />}
-            title="Your vault is ready"
-            description="Start by saving your first bank account or payment card. Everything you add is encrypted on this device before storage."
+            title="Nothing saved yet"
+            description="Add a bank account or a card to get started. Anything you save is encrypted on this device first."
           />
           <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.5, pb: 4 }}>
             <Button variant="contained" startIcon={<Plus size={18} />} onClick={() => navigate('/banks/new')}>
@@ -323,7 +318,6 @@ export function DashboardPage() {
                   onToggleFavorite={() =>
                     mutations.toggleFavorite.mutate({ id: item._id, favorite: !item.favorite })
                   }
-                  onOpen={() => navigate(`/cards/${item._id}`)}
                 />
               </Grid>
             ),

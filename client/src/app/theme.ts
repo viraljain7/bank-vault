@@ -1,93 +1,139 @@
-import { alpha, createTheme } from '@mui/material/styles';
+import { alpha, createTheme } from "@mui/material/styles";
 
 /**
- * VaultBank design system — production fintech aesthetic.
- * Canvas #F6F7F9 · Surface #FFFFFF · Ink #0F172A · Muted #64748B
- * Line #E2E8F0 · Primary #2563EB (indigo/blue) · Success #16A34A · Danger #DC2626
+ * PassVault design system.
+ * Typeface: Public Sans — a humanist grotesque, chosen over Inter because its
+ * open apertures and taller x-height read warmer and less clinical at small sizes.
+ * Neutrals are warm paper tones. The primary is pine #1F6B4A, which sits on that
+ * warm paper better than a blue did; success was pushed to teal so a green
+ * primary button never reads as a confirmation.
  */
 const tokens = {
-  canvas: '#F6F7F9',
-  surface: '#FFFFFF',
-  ink: '#0F172A',
-  muted: '#64748B',
-  line: '#E2E8F0',
-  primary: '#2563EB',
-  primaryDark: '#1D4ED8',
-  primarySoft: '#EBF0FF',
-  success: '#16A34A',
-  successSoft: '#ECFDF3',
-  danger: '#DC2626',
-  dangerSoft: '#FEF2F2',
-  warning: '#F59E0B',
-  warningSoft: '#FFFBEB',
+  canvas: "#F5F3F0",
+  surface: "#FDFCFA",
+  ink: "#1C1A18",
+  muted: "#6E6862",
+  line: "#E4DFD7",
+  primary: "#1F6B4A",
+  primaryDark: "#185A3E",
+  primarySoft: "#EAF3EE",
+  success: "#0F766E",
+  successSoft: "#E6F4F2",
+  danger: "#C42B2B",
+  dangerSoft: "#FBEFEE",
+  warning: "#B45309",
+  warningSoft: "#FBF3E4",
+  // Secondary warm neutrals for hover and inset states.
+  lineStrong: "#CFC8BD",
+  subtle: "#F0EDE8",
 };
 
 export const COLORS = tokens;
 
+const FONT = "'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif";
+const MONO = "ui-monospace, 'SFMono-Regular', Menlo, monospace";
+
+export const FONTS = { sans: FONT, mono: MONO };
+
 const shadows = {
-  xs: '0 1px 2px rgba(15,23,42,0.05)',
-  sm: '0 1px 2px rgba(15,23,42,0.05), 0 2px 8px rgba(15,23,42,0.06)',
-  md: '0 2px 4px rgba(15,23,42,0.05), 0 8px 24px rgba(15,23,42,0.08)',
-  lg: '0 4px 8px rgba(15,23,42,0.06), 0 16px 40px rgba(15,23,42,0.1)',
-  primary: '0 8px 20px rgba(37,99,235,0.28)',
+  xs: "0 1px 2px rgba(28,26,24,0.05)",
+  sm: "0 1px 2px rgba(28,26,24,0.04), 0 1px 3px rgba(28,26,24,0.05)",
+  md: "0 2px 4px rgba(28,26,24,0.04), 0 6px 16px rgba(28,26,24,0.07)",
+  lg: "0 4px 8px rgba(28,26,24,0.05), 0 14px 36px rgba(28,26,24,0.09)",
+  primary: "0 1px 2px rgba(31,107,74,0.26), 0 4px 12px rgba(31,107,74,0.18)",
 };
 
 export const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
     background: { default: tokens.canvas, paper: tokens.surface },
     text: { primary: tokens.ink, secondary: tokens.muted },
     divider: tokens.line,
-    primary: { main: tokens.primary, dark: tokens.primaryDark, contrastText: '#FFFFFF', light: tokens.primarySoft },
-    success: { main: tokens.success, contrastText: '#FFFFFF' },
+    primary: {
+      main: tokens.primary,
+      dark: tokens.primaryDark,
+      contrastText: "#FFFFFF",
+      light: tokens.primarySoft,
+    },
+    success: { main: tokens.success, contrastText: "#FFFFFF" },
     error: { main: tokens.danger },
     warning: { main: tokens.warning },
     info: { main: tokens.primary },
   },
-  shape: { borderRadius: 8 },
+  shape: { borderRadius: 0 },
   typography: {
-    fontFamily: "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
-    h1: { fontSize: '1.625rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2 },
-    h2: { fontSize: '1.375rem', fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1.3 },
-    h3: { fontSize: '1.125rem', fontWeight: 700, lineHeight: 1.35 },
-    h4: { fontSize: '1rem', fontWeight: 700 },
-    subtitle1: { fontWeight: 600, fontSize: '0.9375rem' },
-    subtitle2: { fontWeight: 600, fontSize: '0.8125rem' },
-    body1: { fontSize: '0.9375rem' },
-    body2: { fontSize: '0.875rem', color: tokens.muted },
-    caption: { fontSize: '0.75rem', color: tokens.muted },
-    button: { fontWeight: 600, textTransform: 'none', letterSpacing: '0.01em' },
+    fontFamily: FONT,
+    // Weight is capped at 700 throughout. Heavier 800/900 faces are one of the
+    // clearest tells of generated UI, and they crush Public Sans's counters.
+    h1: {
+      fontSize: "1.5rem",
+      fontWeight: 700,
+      letterSpacing: "-0.011em",
+      lineHeight: 1.3,
+    },
+    h2: {
+      fontSize: "1.3125rem",
+      fontWeight: 700,
+      letterSpacing: "-0.008em",
+      lineHeight: 1.35,
+    },
+    h3: { fontSize: "1.0625rem", fontWeight: 700, lineHeight: 1.4 },
+    h4: { fontSize: "1rem", fontWeight: 700, lineHeight: 1.45 },
+    h5: { fontSize: "0.9375rem", fontWeight: 700, lineHeight: 1.45 },
+    h6: { fontSize: "0.875rem", fontWeight: 700, lineHeight: 1.45 },
+    subtitle1: { fontWeight: 600, fontSize: "0.9375rem", lineHeight: 1.5 },
+    subtitle2: { fontWeight: 600, fontSize: "0.8125rem", lineHeight: 1.45 },
+    body1: { fontSize: "0.9375rem", lineHeight: 1.55 },
+    body2: { fontSize: "0.875rem", lineHeight: 1.5, color: tokens.muted },
+    caption: { fontSize: "0.75rem", lineHeight: 1.45, color: tokens.muted },
+    button: { fontWeight: 600, textTransform: "none", letterSpacing: 0 },
+    overline: {
+      fontSize: "0.6875rem",
+      fontWeight: 600,
+      letterSpacing: "0.06em",
+      lineHeight: 1.4,
+      textTransform: "uppercase",
+    },
   },
   components: {
     MuiCssBaseline: {
-      styleOverrides: {},
+      styleOverrides: {
+        body: {
+          WebkitFontSmoothing: "antialiased",
+          MozOsxFontSmoothing: "grayscale",
+        },
+      },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 0,
           paddingInline: 16,
           paddingBlock: 7,
-          boxShadow: 'none',
-          transition: 'transform 120ms ease, box-shadow 180ms ease, background-color 180ms ease',
-          '&:active': { transform: 'scale(0.985)' },
+          boxShadow: "none",
+          transition:
+            "transform 120ms ease, box-shadow 180ms ease, background-color 180ms ease",
+          "&:active": { transform: "scale(0.985)" },
         },
         containedPrimary: {
           boxShadow: shadows.primary,
-          '&:hover': { boxShadow: shadows.primary },
+          "&:hover": { boxShadow: shadows.primary },
         },
         outlined: {
           borderColor: tokens.line,
-          '&:hover': { borderColor: '#CBD5E1', backgroundColor: '#F8FAFC' },
+          "&:hover": {
+            borderColor: tokens.lineStrong,
+            backgroundColor: tokens.subtle,
+          },
         },
-        text: { '&:hover': { backgroundColor: '#F1F5F9' } },
-        sizeLarge: { paddingInline: 24, paddingBlock: 10, borderRadius: 8 },
+        text: { "&:hover": { backgroundColor: tokens.subtle } },
+        sizeLarge: { paddingInline: 24, paddingBlock: 10, borderRadius: 0 },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 0,
           border: `1px solid ${tokens.line}`,
           boxShadow: shadows.sm,
           backgroundColor: tokens.surface,
@@ -96,74 +142,96 @@ export const theme = createTheme({
     },
     MuiPaper: {
       styleOverrides: {
-        root: { backgroundImage: 'none' },
-        elevation1: { border: `1px solid ${tokens.line}`, boxShadow: shadows.sm },
+        root: { backgroundImage: "none" },
+        elevation1: {
+          border: `1px solid ${tokens.line}`,
+          boxShadow: shadows.sm,
+        },
       },
     },
     MuiTextField: {
-      defaultProps: { variant: 'outlined' },
+      defaultProps: { variant: "outlined" },
       styleOverrides: {
         root: {
-          '& .MuiOutlinedInput-root': {
-            borderRadius: 8,
-            backgroundColor: '#FFFFFF',
-            transition: 'border-color 150ms ease, box-shadow 150ms ease',
-            '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#94A3B8' },
-            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+          "& .MuiOutlinedInput-root": {
+            borderRadius: 0,
+            backgroundColor: tokens.surface,
+            transition: "border-color 150ms ease, box-shadow 150ms ease",
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: tokens.lineStrong,
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: tokens.primary,
               borderWidth: 1,
             },
-            '&.Mui-focused': {
+            "&.Mui-focused": {
               boxShadow: `0 0 0 4px ${alpha(tokens.primary, 0.12)}`,
             },
           },
-          '& .MuiInputLabel-root': { fontWeight: 500 },
+          "& .MuiInputLabel-root": { fontWeight: 500 },
         },
       },
     },
     MuiAlert: {
       styleOverrides: {
-        root: { borderRadius: 8, fontWeight: 500 },
+        root: { borderRadius: 0, fontWeight: 500 },
         filledSuccess: { backgroundColor: tokens.success },
         filledError: { backgroundColor: tokens.danger },
       },
     },
     MuiChip: {
-      styleOverrides: { root: { fontWeight: 600, borderRadius: 8 } },
+      styleOverrides: { root: { fontWeight: 600, borderRadius: 0 } },
     },
     MuiTooltip: {
       styleOverrides: {
-        tooltip: { backgroundColor: '#0F172A', fontSize: 12, padding: '6px 10px' },
-        arrow: { color: '#0F172A' },
+        tooltip: {
+          backgroundColor: tokens.ink,
+          fontSize: 12,
+          padding: "6px 10px",
+          borderRadius: 0,
+        },
+        arrow: { color: tokens.ink },
       },
     },
     MuiDialog: {
-      styleOverrides: { paper: { borderRadius: 8, border: `1px solid ${tokens.line}`, boxShadow: shadows.lg } },
+      styleOverrides: {
+        paper: {
+          borderRadius: 0,
+          border: `1px solid ${tokens.line}`,
+          boxShadow: shadows.lg,
+        },
+      },
     },
     MuiListItemButton: {
       styleOverrides: {
-        root: { borderRadius: 8, transition: 'background-color 180ms ease' },
+        root: { borderRadius: 0, transition: "background-color 180ms ease" },
       },
     },
     MuiMenu: {
-      styleOverrides: { paper: { borderRadius: 8, border: `1px solid ${tokens.line}`, boxShadow: shadows.lg } },
+      styleOverrides: {
+        paper: {
+          borderRadius: 0,
+          border: `1px solid ${tokens.line}`,
+          boxShadow: shadows.lg,
+        },
+      },
     },
     MuiSnackbar: {
-      styleOverrides: { root: { borderRadius: 8 } },
+      styleOverrides: { root: { borderRadius: 0 } },
     },
     MuiAvatar: {
-      styleOverrides: { root: { fontWeight: 700 } },
+      styleOverrides: { root: { fontWeight: 600 } },
     },
     MuiDivider: {
       styleOverrides: { root: { borderColor: tokens.line } },
     },
     MuiSkeleton: {
-      styleOverrides: { root: { borderRadius: 8, backgroundColor: '#E8ECF2' } },
+      styleOverrides: { root: { borderRadius: 0, backgroundColor: "#E7E2DA" } },
     },
     MuiLinearProgress: {
       styleOverrides: {
-        root: { borderRadius: 6, backgroundColor: '#E2E8F0', height: 8 },
-        bar: { borderRadius: 6 },
+        root: { borderRadius: 0, backgroundColor: tokens.line, height: 8 },
+        bar: { borderRadius: 0 },
       },
     },
     MuiSwitch: {
@@ -175,12 +243,12 @@ export const theme = createTheme({
 export const SHADOWS = shadows;
 
 export const CHIP_COLORS = {
-  primary: '#EBF0FF',
-  primaryText: '#1D4ED8',
-  success: '#ECFDF3',
-  successText: '#15803D',
-  danger: '#FEF2F2',
-  dangerText: '#B91C1C',
-  warning: '#FFFBEB',
-  warningText: '#B45309',
+  primary: tokens.primarySoft,
+  primaryText: tokens.primaryDark,
+  success: tokens.successSoft,
+  successText: tokens.success,
+  danger: tokens.dangerSoft,
+  dangerText: "#A32020",
+  warning: tokens.warningSoft,
+  warningText: "#B45309",
 };

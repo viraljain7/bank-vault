@@ -9,20 +9,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        canvas: '#F7F8FA',
-        surface: '#FFFFFF',
-        ink: '#111827',
-        muted: '#6B7280',
-        line: '#E5E7EB',
-        primary: '#2563EB',
-        success: '#16A34A',
-        danger: '#DC2626',
+        canvas: '#F5F3F0',
+        surface: '#FDFCFA',
+        ink: '#1C1A18',
+        muted: '#6E6862',
+        line: '#E4DFD7',
+        primary: '#1F6B4A',
+        success: '#0F766E',
+        danger: '#C42B2B',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['Public Sans', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       borderRadius: {
-        card: '16px',
+        card: '0px',
       },
       boxShadow: {
         soft: '0 1px 2px rgba(17,24,39,0.04), 0 4px 12px rgba(17,24,39,0.06)',

@@ -31,7 +31,7 @@ export function SettingsPage() {
     <Box className="fade-in" >
       <PageHeader title="Settings" subtitle="Preferences and account" />
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 0, mb: 2.5 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Avatar sx={{ width: 52, height: 52, bgcolor: 'primary.main', fontWeight: 700, fontSize: 20 }}>
             {initials(user?.fullName)}
@@ -48,9 +48,9 @@ export function SettingsPage() {
         </Typography>
       </Paper>
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 1, mb: 2.5 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 0, mb: 2.5 }}>
         <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
-          <TimerReset size={20} color="#1D4ED8" />
+          <TimerReset size={20} color="#185A3E" />
           <Typography variant="subtitle1">Auto-lock</Typography>
         </Stack>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -73,7 +73,7 @@ export function SettingsPage() {
         </FormControl>
       </Paper>
 
-      <Paper elevation={0} sx={{ p: 3, borderRadius: 3 }}>
+      <Paper elevation={0} sx={{ p: 3, borderRadius: 0 }}>
         <Typography variant="subtitle1" sx={{ mb: 1 }}>
           Account
         </Typography>

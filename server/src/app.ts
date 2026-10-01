@@ -13,15 +13,9 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 
 import { env } from "./config/env.js";
-import {
-  errorHandler,
-  notFoundHandler,
-} from "./middleware/errorHandler.js";
+import { errorHandler, notFoundHandler } from "./middleware/errorHandler.js";
 
-import {
-  requireAuth,
-  type ClerkTokenVerifier,
-} from "./middleware/auth.js";
+import { requireAuth, type ClerkTokenVerifier } from "./middleware/auth.js";
 
 import { createVaultRouter } from "./modules/vault/vault.routes.js";
 import { createKeysRouter } from "./modules/keys/keys.routes.js";
@@ -43,18 +37,8 @@ const __dirname = path.dirname(__filename);
  * ---------------------------------------------------------
  */
 
-function sanitizeQuery(
-  req: Request,
-  _res: Response,
-  next: NextFunction,
-): void {
-  const blocked = [
-    "password",
-    "cardnumber",
-    "cvv",
-    "otp",
-    "token",
-  ];
+function sanitizeQuery(req: Request, _res: Response, next: NextFunction): void {
+  const blocked = ["password", "cardnumber", "cvv", "otp", "token"];
 
   for (const key of Object.keys(req.query)) {
     if (blocked.includes(key.toLowerCase())) {
@@ -105,15 +89,11 @@ function getFrontendPath(): string {
   ];
 
   const frontendPath = possiblePaths.find((directory) => {
-    return fs.existsSync(
-      path.join(directory, "index.html"),
-    );
+    return fs.existsSync(path.join(directory, "index.html"));
   });
 
   if (!frontendPath) {
-    console.error(
-      "\n❌ React production build not found.\n",
-    );
+    console.error("\n❌ React production build not found.\n");
 
     console.error("Checked paths:");
 
@@ -121,9 +101,7 @@ function getFrontendPath(): string {
       console.error(`  - ${directory}`);
     }
 
-    console.error(
-      "\nRun the React/Vite production build first:\n",
-    );
+    console.error("\nRun the React/Vite production build first:\n");
 
     console.error("  cd client");
     console.error("  npm run build\n");
@@ -133,9 +111,7 @@ function getFrontendPath(): string {
     return possiblePaths[0]!;
   }
 
-  console.log(
-    `✅ React frontend found: ${frontendPath}`,
-  );
+  console.log(`✅ React frontend found: ${frontendPath}`);
 
   return frontendPath;
 }
@@ -160,9 +136,7 @@ export interface CreateAppOptions {
  * ---------------------------------------------------------
  */
 
-export function createApp(
-  options: CreateAppOptions = {},
-): Express {
+export function createApp(options: CreateAppOptions = {}): Express {
   const app = express();
 
   /**
@@ -173,10 +147,7 @@ export function createApp(
 
   app.disable("x-powered-by");
 
-  app.set(
-    "trust proxy",
-    env.TRUST_PROXY ? 1 : 0,
-  );
+  app.set("trust proxy", env.TRUST_PROXY ? 1 : 0);
 
   /**
    * -------------------------------------------------------
@@ -184,102 +155,95 @@ export function createApp(
    * -------------------------------------------------------
    */
 
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
 
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "'unsafe-eval'",
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
 
-          // Your Clerk frontend API/custom domain
-          "https://clerk.jainviral.com",
+            // Your Clerk frontend API/custom domain
+            "https://clerk.jainviral.com",
 
-          // Clerk development/custom hosts if still used anywhere
-          "https://*.clerk.accounts.dev",
+            // Clerk development/custom hosts if still used anywhere
+            "https://*.clerk.accounts.dev",
 
-          // ⭐ Required by Clerk CAPTCHA / Turnstile
-          "https://challenges.cloudflare.com",
+            // ⭐ Required by Clerk CAPTCHA / Turnstile
+            "https://challenges.cloudflare.com",
 
-          // ⭐ Clerk abuse/fraud protection
-          "https://*.protect.clerk.com",
-        ],
+            // ⭐ Clerk abuse/fraud protection
+            "https://*.protect.clerk.com",
+          ],
 
-        styleSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://fonts.googleapis.com",
-        ],
+          styleSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "https://fonts.googleapis.com",
+          ],
 
-        fontSrc: [
-          "'self'",
-          "data:",
-          "https://fonts.gstatic.com",
-        ],
+          fontSrc: ["'self'", "data:", "https://fonts.gstatic.com"],
 
-        imgSrc: [
-          "'self'",
-          "data:",
-          "blob:",
-          "https:",
-          "https://img.clerk.com",
-        ],
+          imgSrc: [
+            "'self'",
+            "data:",
+            "blob:",
+            "https:",
+            "https://img.clerk.com",
+          ],
 
-        connectSrc: [
-          "'self'",
+          connectSrc: [
+            "'self'",
 
-          // Your Clerk custom frontend API
-          "https://clerk.jainviral.com",
+            // Your Clerk custom frontend API
+            "https://clerk.jainviral.com",
 
-          // Clerk
-          "https://*.clerk.accounts.dev",
-          "https://api.clerk.com",
+            // Clerk
+            "https://*.clerk.accounts.dev",
+            "https://api.clerk.com",
 
-          // ⭐ Clerk abuse/fraud protection
-          "https://*.protect.clerk.com:*",
+            // ⭐ Clerk abuse/fraud protection
+            "https://*.protect.clerk.com:*",
 
-          // ⭐ Cloudflare Turnstile
-          "https://challenges.cloudflare.com",
-        ],
+            // ⭐ Cloudflare Turnstile
+            "https://challenges.cloudflare.com",
+          ],
 
-        frameSrc: [
-          "'self'",
+          frameSrc: [
+            "'self'",
 
-          // ⭐ Cloudflare Turnstile
-          "https://challenges.cloudflare.com",
+            // ⭐ Cloudflare Turnstile
+            "https://challenges.cloudflare.com",
 
-          // Clerk
-          "https://clerk.jainviral.com",
-          "https://*.clerk.accounts.dev",
+            // Clerk
+            "https://clerk.jainviral.com",
+            "https://*.clerk.accounts.dev",
 
-          // ⭐ Clerk protection
-          "https://*.protect.clerk.com",
-        ],
+            // ⭐ Clerk protection
+            "https://*.protect.clerk.com",
+          ],
 
-        workerSrc: [
-          "'self'",
-          "blob:",
-        ],
+          workerSrc: ["'self'", "blob:"],
 
-        childSrc: [
-          "'self'",
-          "blob:",
-          "https://challenges.cloudflare.com",
-          "https://*.protect.clerk.com",
-        ],
+          childSrc: [
+            "'self'",
+            "blob:",
+            "https://challenges.cloudflare.com",
+            "https://*.protect.clerk.com",
+          ],
 
-        frameAncestors: ["'none'"],
+          frameAncestors: ["'none'"],
 
-        formAction: ["'self'"],
+          formAction: ["'self'"],
+        },
       },
-    },
 
-    crossOriginEmbedderPolicy: false,
-  }),
-);
+      crossOriginEmbedderPolicy: false,
+    }),
+  );
 
   /**
    * -------------------------------------------------------
@@ -308,23 +272,12 @@ app.use(
           return callback(null, true);
         }
 
-        return callback(
-          new Error("Origin not allowed"),
-        );
+        return callback(new Error("Origin not allowed"));
       },
 
-      methods: [
-        "GET",
-        "POST",
-        "PATCH",
-        "DELETE",
-        "OPTIONS",
-      ],
+      methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
 
-      allowedHeaders: [
-        "Content-Type",
-        "Authorization",
-      ],
+      allowedHeaders: ["Content-Type", "Authorization"],
 
       credentials: true,
 
@@ -371,7 +324,7 @@ app.use(
       success: true,
       data: {
         status: "ok",
-        name: "vaultbank-api",
+        name: "PassVault-api",
       },
     });
   });
@@ -392,25 +345,13 @@ app.use(
    * -------------------------------------------------------
    */
 
-  app.use(
-    "/api/v1/vault",
-    createVaultRouter(auth),
-  );
+  app.use("/api/v1/vault", createVaultRouter(auth));
 
-  app.use(
-    "/api/v1/keys",
-    createKeysRouter(auth),
-  );
+  app.use("/api/v1/keys", createKeysRouter(auth));
 
-  app.use(
-    "/api/v1/activity",
-    createActivityRouter(auth),
-  );
+  app.use("/api/v1/activity", createActivityRouter(auth));
 
-  app.use(
-    "/api/v1/security",
-    createSecurityRouter(auth),
-  );
+  app.use("/api/v1/security", createSecurityRouter(auth));
 
   /**
    * -------------------------------------------------------
@@ -421,9 +362,7 @@ app.use(
   if (process.env.NODE_ENV === "production") {
     const frontendPath = getFrontendPath();
 
-    console.log(
-      `📦 Serving React frontend from: ${frontendPath}`,
-    );
+    console.log(`📦 Serving React frontend from: ${frontendPath}`);
 
     /**
      * Static assets
@@ -443,11 +382,7 @@ app.use(
          * Browser caching for Vite hashed assets.
          */
         setHeaders(res, filePath) {
-          if (
-            filePath.includes(
-              `${path.sep}assets${path.sep}`,
-            )
-          ) {
+          if (filePath.includes(`${path.sep}assets${path.sep}`)) {
             res.setHeader(
               "Cache-Control",
               "public, max-age=31536000, immutable",
@@ -477,24 +412,15 @@ app.use(
         return next();
       }
 
-      const indexPath = path.join(
-        frontendPath,
-        "index.html",
-      );
+      const indexPath = path.join(frontendPath, "index.html");
 
       /**
        * Make sure index.html exists.
        */
       if (!fs.existsSync(indexPath)) {
-        console.error(
-          `❌ React index.html not found: ${indexPath}`,
-        );
+        console.error(`❌ React index.html not found: ${indexPath}`);
 
-        return next(
-          new Error(
-            "React production build not found",
-          ),
-        );
+        return next(new Error("React production build not found"));
       }
 
       return res.sendFile(indexPath);

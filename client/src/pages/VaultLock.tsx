@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Box, Button, Paper, Stack, TextField, Typography } from '@mui/material';
-import { Fingerprint, Lock, UnlockKeyhole } from 'lucide-react';
+import { Fingerprint, UnlockKeyhole } from 'lucide-react';
 import { useVault } from '../contexts/VaultContext';
 import { VaultUnlockError } from '../crypto/vaultCrypto';
-
+import vault from '../img/vault.png';
 /** Locked vault gate shown for all protected routes when the vault is locked. */
 export function VaultLockScreen() {
   const { unlock, lastUnlockedAt } = useVault();
@@ -34,25 +34,11 @@ export function VaultLockScreen() {
 
   return (
     <Box sx={{ maxWidth: 420, mx: 'auto', py: 8, mt: { xs: 0, md: 6 } }} className="fade-in">
-      <Paper elevation={0} sx={{ p: 4, borderRadius: 1, textAlign: 'center' }}>
-        <Box
-          sx={{
-            width: 72,
-            height: 72,
-            borderRadius: '50%',
-            display: 'grid',
-            placeItems: 'center',
-            mx: 'auto',
-            mb: 2.5,
-            background: 'radial-gradient(120% 120% at 30% 0%, #FFFFFF 0%, #F1F5F9 100%)',
-            border: '1px solid',
-            borderColor: 'divider',
-            color: 'text.secondary',
-            boxShadow: '0 8px 24px rgba(15,23,42,0.08)',
-          }}
-        >
-          <Lock size={30} />
+      <Paper elevation={0} sx={{ p: 4, borderRadius: 0, textAlign: 'center' }}>
+        <Box>
+          <img src={vault} alt="PassVault" width={50} height={50} />
         </Box>
+
         <Typography variant="h2">Vault Locked</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mx: 'auto', maxWidth: 300, mt: 1 }}>
           {msg}
@@ -79,7 +65,7 @@ export function VaultLockScreen() {
               error={Boolean(error)}
               helperText={error}
               InputProps={{
-                endAdornment: <Fingerprint size={18} color="#94A3B8" />,
+                endAdornment: <Fingerprint size={18} color="#B3AA9C" />,
               }}
             />
             <Button

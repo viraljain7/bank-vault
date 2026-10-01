@@ -20,17 +20,17 @@ import { formatDateTime, timeAgo } from '../lib/format';
 import type { AuditAction } from '../types';
 
 const ACTION_META: Record<AuditAction, { icon: React.ReactNode; color: string; label: string }> = {
-  CREATE: { icon: <Edit3 size={16} />, color: '#1D4ED8', label: 'Credential created' },
-  UPDATE: { icon: <Edit3 size={16} />, color: '#1D4ED8', label: 'Credential updated' },
+  CREATE: { icon: <Edit3 size={16} />, color: '#185A3E', label: 'Credential created' },
+  UPDATE: { icon: <Edit3 size={16} />, color: '#185A3E', label: 'Credential updated' },
   DELETE: { icon: <Trash2 size={16} />, color: '#B91C1C', label: 'Credential deleted' },
   REVEAL: { icon: <Eye size={16} />, color: '#B45309', label: 'Sensitive value revealed' },
-  COPY: { icon: <Copy size={16} />, color: '#15803D', label: 'Value copied' },
-  LOGIN: { icon: <KeyRound size={16} />, color: '#1D4ED8', label: 'Signed in' },
-  LOCK: { icon: <Lock size={16} />, color: '#6B7280', label: 'Vault locked' },
-  UNLOCK: { icon: <UnlockKeyhole size={16} />, color: '#15803D', label: 'Vault unlocked' },
-  SETUP: { icon: <FolderLock size={16} />, color: '#1D4ED8', label: 'Vault set up' },
-  SEARCH: { icon: <Search size={16} />, color: '#6B7280', label: 'Searched vault' },
-  READ: { icon: <ActivityIcon size={16} />, color: '#6B7280', label: 'Credential opened' },
+  COPY: { icon: <Copy size={16} />, color: '#0F766E', label: 'Value copied' },
+  LOGIN: { icon: <KeyRound size={16} />, color: '#185A3E', label: 'Signed in' },
+  LOCK: { icon: <Lock size={16} />, color: '#6E6862', label: 'Vault locked' },
+  UNLOCK: { icon: <UnlockKeyhole size={16} />, color: '#0F766E', label: 'Vault unlocked' },
+  SETUP: { icon: <FolderLock size={16} />, color: '#185A3E', label: 'Vault set up' },
+  SEARCH: { icon: <Search size={16} />, color: '#6E6862', label: 'Searched vault' },
+  READ: { icon: <ActivityIcon size={16} />, color: '#6E6862', label: 'Credential opened' },
 };
 
 function ActionRow({ action, createdAt }: { action: AuditAction; createdAt: string }) {
@@ -95,10 +95,10 @@ export function ActivityPage() {
     <Box className="fade-in" >
       <PageHeader title="Security Activity" subtitle="A non-sensitive log of vault events" />
 
-      <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3 }}>
+      <Paper elevation={0} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 0 }}>
         {events.length === 0 && (
           <Box sx={{ textAlign: 'center', py: 6 }}>
-            <Clock size={36} color="#9CA3AF" />
+            <Clock size={36} color="#B3AA9C" />
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
               No activity recorded yet.
             </Typography>
@@ -107,7 +107,7 @@ export function ActivityPage() {
 
         {todayEvents.length > 0 && (
           <>
-            <Typography variant="caption" fontWeight={700} color="text.secondary" sx={{ letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            <Typography variant="overline" color="text.secondary">
               Today
             </Typography>
             {todayEvents.map((e) => (
@@ -118,7 +118,7 @@ export function ActivityPage() {
 
         {earlierEvents.length > 0 && (
           <Box sx={{ mt: todayEvents.length > 0 ? 3 : 0 }}>
-            <Typography variant="caption" fontWeight={700} color="text.secondary" sx={{ letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            <Typography variant="overline" color="text.secondary">
               Earlier
             </Typography>
             {earlierEvents.map((e) => (

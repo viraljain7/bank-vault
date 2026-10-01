@@ -25,7 +25,7 @@ export function PageHeader({
             startIcon={<ArrowLeft size={16} />}
             size="small"
             color="inherit"
-            sx={{ px: 1, py: 0.5, bgcolor: '#F8FAFC', border: '1px solid', borderColor: 'divider', color: 'text.secondary', '&:hover': { color: 'text.primary', bgcolor: '#EEF2FF' } }}
+            sx={{ px: 1, py: 0.5, bgcolor: '#F0EDE8', border: '1px solid', borderColor: 'divider', color: 'text.secondary', '&:hover': { color: 'text.primary', bgcolor: '#EBE7E0' } }}
           >
             Back
           </Button>

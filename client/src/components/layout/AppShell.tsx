@@ -11,9 +11,10 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { CreditCard, LayoutDashboard, Lock, LockKeyhole, Menu, Search, Settings, Landmark } from 'lucide-react';
+import { CreditCard, LayoutDashboard, Lock, LockKeyhole, Search, Settings, Landmark } from 'lucide-react';
 import { Brand, NavLinks, SidebarDesktop } from './Sidebar';
 import { useVault } from '../../contexts/VaultContext';
+import valut from '../../img/vault.png';
 
 const MOBILE_NAV = [
   { to: '/dashboard', label: 'Home', icon: <LayoutDashboard size={20} /> },
@@ -62,7 +63,7 @@ export function AppShell() {
   }, [location.pathname]);
 
   useEffect(() => {
-    document.title = currentTitle === 'Dashboard' ? 'VaultBank — Your financial credentials. Secured.' : `${currentTitle} — VaultBank`;
+    document.title = currentTitle === 'Dashboard' ? 'PassVault — Your financial credentials. Secured.' : `${currentTitle} — PassVault`;
   }, [currentTitle]);
 
   const activeIndex = MOBILE_NAV.findIndex((item) =>
@@ -101,26 +102,9 @@ export function AppShell() {
         >
           <Toolbar sx={{ gap: 1 }}>
             <IconButton edge="start" aria-label="Open navigation" onClick={() => setDrawerOpen(true)}>
-              <Menu size={22} />
+              <img src={valut} alt="PassVault" width={70} height={70} />
             </IconButton>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
-              <Box
-                sx={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 1,
-                  display: 'grid',
-                  placeItems: 'center',
-                  bgcolor: 'primary.main',
-                  color: '#fff',
-                }}
-              >
-                <LockKeyhole size={17} />
-              </Box>
-              <Typography variant="subtitle1" fontWeight={800}>
-                VaultBank
-              </Typography>
-            </Box>
+          
             <IconButton aria-label="Search vault" onClick={() => navigate('/search')} sx={{ bgcolor: 'background.default' }}>
               <Search size={20} />
             </IconButton>
@@ -141,24 +125,16 @@ export function AppShell() {
             top: '0',
             zIndex: 100,
             mb: 2,
-            bgcolor: 'rgba(255,255,255,0.85)',
+            bgcolor: 'rgba(253,252,250,0.88)',
             backdropFilter: 'blur(10px)',
             WebkitBackdropFilter: 'blur(10px)',
-            boxShadow: '0 8px 24px -12px rgba(15,23,42,0.12)',
-            '&::after': {
-              content: '""',
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 2,
-              pointerEvents: 'none',
-              background:
-                'linear-gradient(90deg, transparent 0%, rgba(37,99,235,0.5) 20%, rgba(139,92,246,0.6) 50%, rgba(217,70,239,0.5) 80%, transparent 100%)',
-            },
+            borderBottom: '1px solid',
+            borderColor: 'divider',
           }}
         >
-      <Box></Box>
+      <Typography variant="h3" sx={{ flex: 1 }}>
+            {currentTitle}
+          </Typography>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Box
@@ -170,14 +146,14 @@ export function AppShell() {
                 width: 260,
                 px: 1.5,
                 py: 0.9,
-                borderRadius: 1,
+                borderRadius: 0,
                 border: '1px solid',
                 borderColor: 'divider',
                 bgcolor: 'background.paper',
                 color: 'text.secondary',
                 cursor: 'pointer',
-                transition: 'border-color 150ms ease, box-shadow 150ms ease',
-                '&:hover': { borderColor: '#94A3B8' },
+                transition: 'border-color 150ms ease',
+                '&:hover': { borderColor: '#CFC8BD' },
               }}
             >
               <Search size={17} />
@@ -189,11 +165,11 @@ export function AppShell() {
                 sx={{
                   fontSize: 11,
                   fontWeight: 600,
-                  bgcolor: '#F1F5F9',
-                  border: '1px solid #E2E8F0',
+                  bgcolor: '#F0EDE8',
+                  border: '1px solid #E4DFD7',
                   px: 0.7,
                   py: 0.2,
-                  borderRadius: 6,
+                  borderRadius: 0,
                   color: 'text.secondary',
                 }}
               >
@@ -215,9 +191,9 @@ export function AppShell() {
                   gap: 1,
                   px: 1.25,
                   py: 0.8,
-                  borderRadius: 1,
-                  bgcolor: unlocked ? '#ECFDF3' : '#F1F5F9',
-                  color: unlocked ? '#15803D' : '#64748B',
+                  borderRadius: 0,
+                  bgcolor: unlocked ? '#E6F4F2' : '#F0EDE8',
+                  color: unlocked ? '#0F766E' : '#6E6862',
                   cursor: unlocked ? 'pointer' : 'default',
                   whiteSpace: 'nowrap',
                 }}

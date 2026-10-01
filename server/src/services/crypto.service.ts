@@ -1,11 +1,17 @@
-import { createCipheriv, createDecipheriv, createHash, randomBytes, timingSafeEqual } from 'node:crypto';
-import { env } from '../config/env.js';
-import { ApiError } from '../utils/ApiError.js';
+import {
+  createCipheriv,
+  createDecipheriv,
+  createHash,
+  randomBytes,
+  timingSafeEqual,
+} from "node:crypto";
+import { env } from "../config/env.js";
+import { ApiError } from "../utils/ApiError.js";
 
 /**
  * Server-side authenticated encryption (AES-256-GCM).
  *
- * Role in VaultBank
+ * Role in PassVault
  * -----------------
  * Vault payload encryption happens on the CLIENT with Web Crypto and a
  * client-side vault key — the server never sees plaintext credentials.
@@ -32,16 +38,19 @@ export interface EncryptedPaylod {
 
 function keyBytesFromSecret(secret: string): Buffer {
   if (/^[0-9a-fA-F]{64}$/.test(secret)) {
-    return Buffer.from(secret, 'hex');
+    return Buffer.from(secret, "hex");
   }
   // Allow any sufficiently long secret by deriving a fixed 32-byte key.
-  return createHash('sha256').update(secret).digest();
+  return createHash("sha256").update(secret).digest();
 }
 
 function currentKey(): Buffer {
   const key = keyBytesFromSecret(env.ENCRYPTION_KEY);
   if (key.length !== 32) {
-    throw new ApiError('Invalid encryption key length', { status: 500, code: 'ENCRYPTION_CONFIG' });
+    throw new ApiError("Invalid encryption key length", {
+      status: 500,
+      code: "ENCRYPTION_CONFIG",
+    });
   }
   return key;
 }
@@ -52,14 +61,17 @@ export function encryptWithServerKey(
 ): EncryptedPaylod {
   const key = currentKey();
   const iv = randomBytes(12);
-  const cipher = createCipheriv('aes-256-gcm', key, iv);
-  const encrypted = Buffer.concat([cipher.update(plaintextRaw), cipher.final()]);
+  const cipher = createCipheriv("aes-256-gcm", key, iv);
+  const encrypted = Buffer.concat([
+    cipher.update(plaintextRaw),
+    cipher.final(),
+  ]);
   const tag = cipher.getAuthTag();
 
   return {
-    ciphertext: encrypted.toString('base64'),
-    iv: iv.toString('base64'),
-    tag: tag.toString('base64'),
+    ciphertext: encrypted.toString("base64"),
+    iv: iv.toString("base64"),
+    tag: tag.toString("base64"),
     encryptionVersion: version,
   };
 }
@@ -67,16 +79,29 @@ export function encryptWithServerKey(
 export function decryptWithServerKey(payload: EncryptedPaylod): Buffer {
   if (payload.encryptionVersion !== DEFAULT_ENCRYPTION_VERSION) {
     // Future: look up the old key from the key-ring by version.
-    throw new ApiError('Unsupported encryption version', { status: 500, code: 'ENCRYPTION_VERSION' });
+    throw new ApiError("Unsupported encryption version", {
+      status: 500,
+      code: "ENCRYPTION_VERSION",
+    });
   }
   try {
     const key = currentKey();
-    const decipher = createDecipheriv('aes-256-gcm', key, Buffer.from(payload.iv, 'base64'));
-    decipher.setAuthTag(Buffer.from(payload.tag, 'base64'));
-    const plain = Buffer.concat([decipher.update(Buffer.from(payload.ciphertext, 'base64')), decipher.final()]);
+    const decipher = createDecipheriv(
+      "aes-256-gcm",
+      key,
+      Buffer.from(payload.iv, "base64"),
+    );
+    decipher.setAuthTag(Buffer.from(payload.tag, "base64"));
+    const plain = Buffer.concat([
+      decipher.update(Buffer.from(payload.ciphertext, "base64")),
+      decipher.final(),
+    ]);
     return plain;
   } catch {
-    throw new ApiError('Failed to decrypt protected data', { status: 500, code: 'DECRYPT_FAILED' });
+    throw new ApiError("Failed to decrypt protected data", {
+      status: 500,
+      code: "DECRYPT_FAILED",
+    });
   }
 }
 
