@@ -139,7 +139,7 @@ export function DashboardPage() {
   const [pendingDelete, setPendingDelete] = useState<VaultItem | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  const recent = useMemo(() => (items.data ?? []).slice(0, 4), [items.data]);
+  const recent = useMemo(() => (items.data ?? []), [items.data]);
   const totalCount = (overview.data?.banks ?? 0) + (overview.data?.cards ?? 0);
 
   const confirmDelete = useCallback(async () => {
