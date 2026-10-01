@@ -91,8 +91,8 @@ export function BankDetailPage() {
             mb: 2.5,
             bgcolor: 'primary.light',
             border: '1px solid',
-            borderColor: '#DCE6FD',
-            color: 'primary.main',
+            borderColor: '#C6EDEF',
+            color: 'primary.dark',
             fontWeight: 600,
           }}
         >
@@ -104,10 +104,10 @@ export function BankDetailPage() {
               display: 'grid',
               placeItems: 'center',
               bgcolor: 'primary.main',
-              color: '#fff',
+              color: '#04252A',
             }}
           >
-            <Building2 size={17} style={{ color: 'rgba(255,255,255,0.85)', flexShrink: 0 }} />
+            <Building2 size={17} style={{ color: 'rgba(4,37,42,0.85)', flexShrink: 0 }} />
           </Box>
           <Typography variant="body2" sx={{ color: 'primary.dark', fontWeight: 700 }}>
             {item.metadata.bankName ?? item.title}

@@ -63,7 +63,7 @@ const NAV_SECTIONS: Array<{
 
 export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <Box component="nav" sx={{ px: 0 }}>
+    <Box component="nav" sx={{ px: 0, borderTop: "1px solid", borderColor: "divider" ,py: 1.5}}>
       {NAV_SECTIONS.map((section) => (
         <Box key={section.heading} sx={{ mb: 1.5 }}>
           <Typography
@@ -89,10 +89,12 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                     pr: 1.5,
                     py: 1.05,
                     borderRadius: 0,
-                    color: isActive ? "primary.main" : "text.secondary",
+                    color: isActive ? "primary.dark" : "text.secondary",
                     fontWeight: isActive ? 600 : 500,
-                    boxShadow: isActive ? "inset 2px 0 0 0 #1F6B4A" : "none",
-                    "&:hover": { bgcolor: isActive ? "transparent" : "#F0EDE8" },
+                    boxShadow: isActive ? "inset 2px 0 0 0 #046B70" : "none",
+                    "&:hover": {
+                      bgcolor: isActive ? "transparent" : "#F0EDE8",
+                    },
                     transition: "background-color 160ms ease, color 160ms ease",
                   }}
                 >
@@ -119,11 +121,11 @@ export function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
                       sx={{
                         fontSize: 10.5,
                         fontWeight: 600,
-                        color: isActive ? "primary.main" : "text.secondary",
+                        color: isActive ? "primary.dark" : "text.secondary",
                         bgcolor: "transparent",
                         border: isActive
-                          ? "1px solid rgba(31,107,74,0.28)"
-                          : "1px solid #E4DFD7",
+                          ? "1px solid rgba(4,221,226,0.55)"
+                          : "1px solid #E3DED6",
                         px: 0.6,
                         py: 0.15,
                         borderRadius: 0,
@@ -162,6 +164,7 @@ export function UserCard() {
                 width: 36,
                 height: 36,
                 bgcolor: "primary.main",
+                color: "#04252A",
                 fontSize: 14,
                 fontWeight: 600,
               }}
@@ -176,7 +179,7 @@ export function UserCard() {
                 width: 10,
                 height: 10,
                 borderRadius: "50%",
-                bgcolor: unlocked ? "#12A374" : "#B3AA9C",
+                bgcolor: unlocked ? "#04DDE2" : "#B3AA9C",
                 border: "2px solid #F0EDE8",
               }}
             />
@@ -237,22 +240,13 @@ export function Brand() {
         alignItems: "center",
         gap: 1.5,
         px: 2,
-        py: 2.25,
+        py: 1.55,
       }}
     >
       <Box>
-        <img src={vault} alt="PassVault" width={50} height={50} />
+        <img src={vault} alt="PassVault" width={150} height={40} />
       </Box>
 
-      <Box>
-        <Typography
-          variant="h6"
-          fontWeight={700}
-          sx={{ lineHeight: 1.15 }}
-        >
-          PassVault
-        </Typography>
-      </Box>
     </Box>
   );
 }
@@ -271,10 +265,7 @@ export function SecurityFooter() {
         }}
       >
         <ShieldCheck size={14} />
-        <Typography
-          variant="caption"
-          sx={{ color: "text.secondary" }}
-        >
+        <Typography variant="caption" sx={{ color: "text.secondary" }}>
           End-to-end encrypted
         </Typography>
       </Box>

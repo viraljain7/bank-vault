@@ -17,10 +17,39 @@ import type { VaultItem } from '../types';
 
 type Tone = { chip: string; text: string };
 
+/**
+ * One accent per tile, spaced far enough apart to read as four different
+ * colours rather than four shades of cyan. The two solid corners already carry
+ * the brand (cyan + navy), so these two sit at the opposite end of the wheel:
+ * violet at 257deg and amber at 32deg, both passing 4.5:1 on their tints.
+ */
 const STAT_TONES: Record<'cards' | 'favorites', Tone> = {
-  cards: { chip: '#E6F4F2', text: '#0F766E' },
+  cards: { chip: '#EFEAFB', text: '#6D4AC4' },
   favorites: { chip: '#FBF3E4', text: '#B45309' },
 };
+
+/**
+ * Picks a readable foreground for an arbitrary solid fill.
+ *
+ * The two filled tiles now sit at opposite ends of the range — logo cyan needs
+ * near-black text, logo navy needs white — so hardcoding either one would make
+ * the other illegible.
+ */
+function readableInk(hex: string): string {
+  const lin = (c: number) => {
+    const s = c / 255;
+    return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  };
+  const n = parseInt(hex.slice(1), 16);
+  const lum = 0.2126 * lin((n >> 16) & 255) + 0.7152 * lin((n >> 8) & 255) + 0.0722 * lin(n & 255);
+  const vs = (l: number) => (Math.max(lum, l) + 0.05) / (Math.min(lum, l) + 0.05);
+  return vs(1) >= vs(0.0152) ? '#FFFFFF' : '#04252A';
+}
+
+function withAlpha(hex: string, alpha: number): string {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+}
 
 /**
  * Two treatments, not four colours. The filled tiles carry the eye and sit on
@@ -46,6 +75,7 @@ function StatCard({
   live?: boolean;
 }) {
   const solid = Boolean(fill);
+  const onFill = fill ? readableInk(fill) : undefined;
 
   return (
     <Paper
@@ -56,9 +86,9 @@ function StatCard({
         height: '100%',
         borderRadius: 0,
         bgcolor: solid ? fill : 'background.paper',
-        border: solid ? '1px solid rgba(255,255,255,0.08)' : '1px solid',
+        border: solid ? `1px solid ${withAlpha(onFill!, 0.1)}` : '1px solid',
         borderColor: solid ? undefined : 'divider',
-        color: solid ? '#fff' : 'text.primary',
+        color: solid ? onFill : 'text.primary',
         transition: solid ? 'none' : 'border-color 160ms ease',
         '&:hover': solid ? {} : { borderColor: '#CFC8BD' },
       }}
@@ -71,15 +101,15 @@ function StatCard({
             width: 38,
             height: 38,
             borderRadius: 0,
-            bgcolor: solid ? 'rgba(255,255,255,0.14)' : tone?.chip,
-            color: solid ? '#fff' : tone?.text,
+            bgcolor: solid ? withAlpha(onFill!, 0.14) : tone?.chip,
+            color: solid ? onFill : tone?.text,
           }}
         >
           {icon}
         </Box>
         <Typography
           variant="overline"
-          sx={{ color: solid ? 'rgba(255,255,255,0.85)' : 'text.secondary' }}
+          sx={{ color: solid ? withAlpha(onFill!, 0.85) : 'text.secondary' }}
         >
           {label}
         </Typography>
@@ -90,7 +120,7 @@ function StatCard({
               width: 7,
               height: 7,
               borderRadius: '50%',
-              bgcolor: '#3DD68C',
+              bgcolor: '#04DDE2',
               ml: 'auto',
               mr: 0.25,
             }}
@@ -107,7 +137,7 @@ function StatCard({
             : { xs: '1.875rem', sm: '2.125rem' },
           fontWeight: 700,
           lineHeight: 1,
-          color: solid ? '#fff' : 'text.primary',
+          color: solid ? onFill : 'text.primary',
         }}
       >
         {value}
@@ -116,7 +146,7 @@ function StatCard({
       {hint && (
         <Typography
           variant="caption"
-          sx={{ display: 'block', mt: 1.25, color: solid ? 'rgba(255,255,255,0.82)' : 'text.secondary' }}
+          sx={{ display: 'block', mt: 1.25, color: solid ? withAlpha(onFill!, 0.82) : 'text.secondary' }}
         >
           {hint}
         </Typography>
@@ -198,7 +228,7 @@ export function DashboardPage() {
             label="Bank Accounts"
             value={overview.data?.banks ?? 0}
             hint={`${totalCount} items saved in total`}
-            fill="#1F6B4A"
+            fill="#04DDE2"
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
@@ -225,7 +255,7 @@ export function DashboardPage() {
             label="Vault Status"
             value={phase === 'unlocked' ? 'Unlocked' : 'Protected'}
             hint={phase === 'unlocked' ? 'Tap Protected above to lock' : 'Nothing to unlock'}
-            fill="#1C1A18"
+            fill="#050B13"
             live={phase === 'unlocked'}
           />
         </Grid>
@@ -247,7 +277,7 @@ export function DashboardPage() {
           borderColor: 'divider',
         }}
       >
-        <Box sx={{ width: 40, height: 40, borderRadius: 0, display: 'grid', placeItems: 'center', bgcolor: 'primary.main', color: '#fff', flexShrink: 0 }}>
+        <Box sx={{ width: 40, height: 40, borderRadius: 0, display: 'grid', placeItems: 'center', bgcolor: 'primary.main', color: '#04252A', flexShrink: 0 }}>
           <LockKeyhole size={20} />
         </Box>
         <Box sx={{ flex: 1 }}>

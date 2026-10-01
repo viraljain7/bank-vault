@@ -39,7 +39,7 @@ export function EmptyState({
           bgcolor: 'primary.light',
           border: '1px solid',
           borderColor: 'divider',
-          color: 'primary.main',
+          color: 'primary.dark',
           mb: 0.5,
         }}
       >
@@ -49,7 +49,7 @@ export function EmptyState({
         <Chip
           label={badge}
           size="small"
-          sx={{ bgcolor: '#EAF3EE', color: '#185A3E', fontWeight: 600 }}
+          sx={{ bgcolor: '#E2FAFB', color: '#046B70', fontWeight: 600 }}
         />
       )}
       <Box>

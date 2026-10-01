@@ -75,8 +75,8 @@ export function TypeChip({ type }: { type: VaultItem['type'] }) {
       label={type === 'bank' ? 'Bank account' : 'Card'}
       size="small"
       sx={{
-        bgcolor: type === 'bank' ? '#EBEFFF' : '#E7F6EC',
-        color: type === 'bank' ? '#185A3E' : '#0F766E',
+        bgcolor: type === 'bank' ? '#E2FAFB' : '#E8F5EC',
+        color: type === 'bank' ? '#046B70' : '#157F3C',
         fontWeight: 600,
       }}
     />

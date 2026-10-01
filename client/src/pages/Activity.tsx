@@ -20,17 +20,17 @@ import { formatDateTime, timeAgo } from '../lib/format';
 import type { AuditAction } from '../types';
 
 const ACTION_META: Record<AuditAction, { icon: React.ReactNode; color: string; label: string }> = {
-  CREATE: { icon: <Edit3 size={16} />, color: '#185A3E', label: 'Credential created' },
-  UPDATE: { icon: <Edit3 size={16} />, color: '#185A3E', label: 'Credential updated' },
+  CREATE: { icon: <Edit3 size={16} />, color: '#046B70', label: 'Credential created' },
+  UPDATE: { icon: <Edit3 size={16} />, color: '#046B70', label: 'Credential updated' },
   DELETE: { icon: <Trash2 size={16} />, color: '#B91C1C', label: 'Credential deleted' },
   REVEAL: { icon: <Eye size={16} />, color: '#B45309', label: 'Sensitive value revealed' },
-  COPY: { icon: <Copy size={16} />, color: '#0F766E', label: 'Value copied' },
-  LOGIN: { icon: <KeyRound size={16} />, color: '#185A3E', label: 'Signed in' },
-  LOCK: { icon: <Lock size={16} />, color: '#6E6862', label: 'Vault locked' },
-  UNLOCK: { icon: <UnlockKeyhole size={16} />, color: '#0F766E', label: 'Vault unlocked' },
-  SETUP: { icon: <FolderLock size={16} />, color: '#185A3E', label: 'Vault set up' },
-  SEARCH: { icon: <Search size={16} />, color: '#6E6862', label: 'Searched vault' },
-  READ: { icon: <ActivityIcon size={16} />, color: '#6E6862', label: 'Credential opened' },
+  COPY: { icon: <Copy size={16} />, color: '#157F3C', label: 'Value copied' },
+  LOGIN: { icon: <KeyRound size={16} />, color: '#046B70', label: 'Signed in' },
+  LOCK: { icon: <Lock size={16} />, color: '#68655F', label: 'Vault locked' },
+  UNLOCK: { icon: <UnlockKeyhole size={16} />, color: '#157F3C', label: 'Vault unlocked' },
+  SETUP: { icon: <FolderLock size={16} />, color: '#046B70', label: 'Vault set up' },
+  SEARCH: { icon: <Search size={16} />, color: '#68655F', label: 'Searched vault' },
+  READ: { icon: <ActivityIcon size={16} />, color: '#68655F', label: 'Credential opened' },
 };
 
 function ActionRow({ action, createdAt }: { action: AuditAction; createdAt: string }) {

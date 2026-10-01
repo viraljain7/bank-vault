@@ -11,11 +11,13 @@ module.exports = {
       colors: {
         canvas: '#F5F3F0',
         surface: '#FDFCFA',
-        ink: '#1C1A18',
-        muted: '#6E6862',
-        line: '#E4DFD7',
-        primary: '#1F6B4A',
-        success: '#0F766E',
+        ink: '#0C1218',
+        muted: '#68655F',
+        line: '#E3DED6',
+        primary: '#04DDE2',
+        'primary-deep': '#046B70',
+        deep: '#050B13',
+        success: '#157F3C',
         danger: '#C42B2B',
       },
       fontFamily: {

@@ -75,7 +75,7 @@ export function SecurityPage() {
 
       <Paper elevation={0} sx={{ p: 3, borderRadius: 0, mb: 2.5 }}>
         <Stack direction="row" spacing={2} alignItems="center">
-          <Box sx={{ width: 48, height: 48, borderRadius: 0, display: 'grid', placeItems: 'center', bgcolor: '#E6F4F2', color: '#0F766E' }}>
+          <Box sx={{ width: 48, height: 48, borderRadius: 0, display: 'grid', placeItems: 'center', bgcolor: '#E8F5EC', color: '#157F3C' }}>
             <ShieldCheck size={24} />
           </Box>
           <Box>

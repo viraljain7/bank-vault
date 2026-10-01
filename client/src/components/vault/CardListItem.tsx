@@ -52,7 +52,7 @@ export function CardListItem({
               display: 'grid',
               placeItems: 'center',
               bgcolor: 'primary.light',
-              color: 'primary.main',
+              color: 'primary.dark',
               flexShrink: 0,
             }}
           >
@@ -98,7 +98,7 @@ export function CardListItem({
           fullWidth
           variant="text"
           onClick={() => setOpen(true)}
-          endIcon={<ChevronRight size={16} style={{ color: 'primary.main' }} />}
+          endIcon={<ChevronRight size={16} style={{ color: '#046B70' }} />}
           sx={{
             mt: 1.25,
             justifyContent: 'space-between',

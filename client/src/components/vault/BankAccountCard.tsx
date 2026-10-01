@@ -55,7 +55,7 @@ export function BankAccountCard({
                 display: 'grid',
                 placeItems: 'center',
                 bgcolor: 'primary.light',
-                color: 'primary.main',
+                color: 'primary.dark',
                 flexShrink: 0,
               }}
             >
@@ -107,14 +107,14 @@ export function BankAccountCard({
             icon={<ShieldCheck size={13} />}
             label="End-to-end encrypted"
             size="small"
-            sx={{ bgcolor: '#E6F4F2', color: '#0F766E', fontSize: 11 }}
+            sx={{ bgcolor: '#E8F5EC', color: '#157F3C', fontSize: 11 }}
           />
           <UpdatedTime iso={item.updatedAt} />
         </Box>
 
         <Button
           onClick={() => setOpen(true)}
-          endIcon={<ChevronRight size={16} style={{ color: 'primary.main' }} />}
+          endIcon={<ChevronRight size={16} style={{ color: '#046B70' }} />}
           fullWidth
           variant="text"
           sx={{

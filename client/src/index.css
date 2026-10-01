@@ -16,7 +16,7 @@ body {
   margin: 0;
   font-family: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   background-color: #f5f3f0;
-  color: #1c1a18;
+  color: #0c1218;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -29,8 +29,8 @@ body {
 }
 
 ::selection {
-  background: rgba(31, 107, 74, 0.16);
-  color: #1c1a18;
+  background: rgba(4, 221, 226, 0.24);
+  color: #0c1218;
 }
 
 * {
@@ -61,7 +61,7 @@ body {
 
 /* Accessible focus states (not colour-only) */
 :focus-visible {
-  outline: 2px solid #1f6b4a;
+  outline: 2px solid #046b70;
   outline-offset: 2px;
 }
 
@@ -121,7 +121,7 @@ body {
 
 /* Card visual for the premium card preview */
 .premium-card {
-  background: linear-gradient(135deg, #143a2a 0%, #1c5540 55%, #26694e 100%);
+  background: linear-gradient(135deg, #050b13 0%, #0a1c27 55%, #06323b 100%);
   color: #ffffff;
   border-radius: 0;
   position: relative;
@@ -152,7 +152,7 @@ body {
 
 /* Card visual for the premium bank account preview */
 .premium-bank-card {
-  background: linear-gradient(135deg, #1f2a38 0%, #2a3a4d 55%, #374a61 100%);
+  background: linear-gradient(135deg, #04121b 0%, #07202e 55%, #0a2b3c 100%);
   color: #ffffff;
   border-radius: 0;
   position: relative;

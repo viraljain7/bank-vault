@@ -1,24 +1,38 @@
 import { alpha, createTheme } from "@mui/material/styles";
 
 /**
- * PassVault design system.
- * Typeface: Public Sans — a humanist grotesque, chosen over Inter because its
- * open apertures and taller x-height read warmer and less clinical at small sizes.
- * Neutrals are warm paper tones. The primary is pine #1F6B4A, which sits on that
- * warm paper better than a blue did; success was pushed to teal so a green
- * primary button never reads as a confirmation.
+ * PassVault design system, derived from the logo.
+ *
+ * The mark is cyan #04DDE2 over a near-black navy #050B13, so those two are the
+ * brand poles: cyan carries fills, navy carries dark surfaces.
+ *
+ * Cyan is far too light to be a foreground. White on #04DDE2 is only 1.7:1 and
+ * cyan on paper is 1.7:1 the other way, so the palette splits it into three
+ * roles:
+ *   primary      #04DDE2 — fills, borders, accents on dark. Never text.
+ *   primaryText  #046B70 — the only cyan used for text/icons on light (6.1:1).
+ *   onPrimary    #04252A — text/icons sitting on a cyan fill (9.6:1).
+ *
+ * The warm paper neutrals were kept: cyan is a cool accent and reads as a
+ * deliberate contrast against cream rather than as a tint of it.
  */
 const tokens = {
   canvas: "#F5F3F0",
   surface: "#FDFCFA",
-  ink: "#1C1A18",
-  muted: "#6E6862",
-  line: "#E4DFD7",
-  primary: "#1F6B4A",
-  primaryDark: "#185A3E",
-  primarySoft: "#EAF3EE",
-  success: "#0F766E",
-  successSoft: "#E6F4F2",
+  ink: "#0C1218",
+  muted: "#68655F",
+  line: "#E3DED6",
+  // Brand cyan.
+  primary: "#04DDE2",
+  primaryHover: "#02B0B4",
+  primaryText: "#046B70",
+  primarySoft: "#E2FAFB",
+  onPrimary: "#04252A",
+  /** Logo navy — solid dark surfaces and the premium card visuals. */
+  deep: "#050B13",
+  // Success moved off teal: teal sat too close to the new cyan primary.
+  success: "#157F3C",
+  successSoft: "#E8F5EC",
   danger: "#C42B2B",
   dangerSoft: "#FBEFEE",
   warning: "#B45309",
@@ -40,7 +54,7 @@ const shadows = {
   sm: "0 1px 2px rgba(28,26,24,0.04), 0 1px 3px rgba(28,26,24,0.05)",
   md: "0 2px 4px rgba(28,26,24,0.04), 0 6px 16px rgba(28,26,24,0.07)",
   lg: "0 4px 8px rgba(28,26,24,0.05), 0 14px 36px rgba(28,26,24,0.09)",
-  primary: "0 1px 2px rgba(31,107,74,0.26), 0 4px 12px rgba(31,107,74,0.18)",
+  primary: "0 1px 2px rgba(2,140,144,0.26), 0 4px 12px rgba(2,140,144,0.18)",
 };
 
 export const theme = createTheme({
@@ -51,14 +65,17 @@ export const theme = createTheme({
     divider: tokens.line,
     primary: {
       main: tokens.primary,
-      dark: tokens.primaryDark,
-      contrastText: "#FFFFFF",
+      // `dark` is the text-safe teal, so anything reading primary.dark as a
+      // foreground stays legible. Contained-button hover is overridden below
+      // because MUI would otherwise use it as a background.
+      dark: tokens.primaryText,
+      contrastText: tokens.onPrimary,
       light: tokens.primarySoft,
     },
-    success: { main: tokens.success, contrastText: "#FFFFFF" },
+    success: { main: tokens.success, light: tokens.successSoft, contrastText: "#FFFFFF" },
     error: { main: tokens.danger },
     warning: { main: tokens.warning },
-    info: { main: tokens.primary },
+    info: { main: tokens.primary, contrastText: tokens.onPrimary },
   },
   shape: { borderRadius: 0 },
   typography: {
@@ -117,7 +134,10 @@ export const theme = createTheme({
         },
         containedPrimary: {
           boxShadow: shadows.primary,
-          "&:hover": { boxShadow: shadows.primary },
+          "&:hover": {
+            boxShadow: shadows.primary,
+            backgroundColor: tokens.primaryHover,
+          },
         },
         outlined: {
           borderColor: tokens.line,
@@ -165,7 +185,7 @@ export const theme = createTheme({
               borderWidth: 1,
             },
             "&.Mui-focused": {
-              boxShadow: `0 0 0 4px ${alpha(tokens.primary, 0.12)}`,
+              boxShadow: `0 0 0 4px ${alpha(tokens.primaryText, 0.16)}`,
             },
           },
           "& .MuiInputLabel-root": { fontWeight: 500 },
@@ -244,7 +264,7 @@ export const SHADOWS = shadows;
 
 export const CHIP_COLORS = {
   primary: tokens.primarySoft,
-  primaryText: tokens.primaryDark,
+  primaryText: tokens.primaryText,
   success: tokens.successSoft,
   successText: tokens.success,
   danger: tokens.dangerSoft,

@@ -14,7 +14,7 @@ import {
 import { CreditCard, LayoutDashboard, Lock, LockKeyhole, Search, Settings, Landmark } from 'lucide-react';
 import { Brand, NavLinks, SidebarDesktop } from './Sidebar';
 import { useVault } from '../../contexts/VaultContext';
-import valut from '../../img/vault.png';
+import vault from '../../img/vault.png';
 
 const MOBILE_NAV = [
   { to: '/dashboard', label: 'Home', icon: <LayoutDashboard size={20} /> },
@@ -102,7 +102,7 @@ export function AppShell() {
         >
           <Toolbar sx={{ gap: 1 }}>
             <IconButton edge="start" aria-label="Open navigation" onClick={() => setDrawerOpen(true)}>
-              <img src={valut} alt="PassVault" width={70} height={70} />
+              <img src={vault} alt="PassVault" width={70} height={70} />
             </IconButton>
           
             <IconButton aria-label="Search vault" onClick={() => navigate('/search')} sx={{ bgcolor: 'background.default' }}>
@@ -166,7 +166,7 @@ export function AppShell() {
                   fontSize: 11,
                   fontWeight: 600,
                   bgcolor: '#F0EDE8',
-                  border: '1px solid #E4DFD7',
+                  border: '1px solid #E3DED6',
                   px: 0.7,
                   py: 0.2,
                   borderRadius: 0,
@@ -192,8 +192,8 @@ export function AppShell() {
                   px: 1.25,
                   py: 0.8,
                   borderRadius: 0,
-                  bgcolor: unlocked ? '#E6F4F2' : '#F0EDE8',
-                  color: unlocked ? '#0F766E' : '#6E6862',
+                  bgcolor: unlocked ? '#E8F5EC' : '#F0EDE8',
+                  color: unlocked ? '#157F3C' : '#68655F',
                   cursor: unlocked ? 'pointer' : 'default',
                   whiteSpace: 'nowrap',
                 }}

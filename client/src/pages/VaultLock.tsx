@@ -36,10 +36,9 @@ export function VaultLockScreen() {
     <Box sx={{ maxWidth: 420, mx: 'auto', py: 8, mt: { xs: 0, md: 6 } }} className="fade-in">
       <Paper elevation={0} sx={{ p: 4, borderRadius: 0, textAlign: 'center' }}>
         <Box>
-          <img src={vault} alt="PassVault" width={50} height={50} />
+          <img src={vault} alt="PassVault" width={150} height={50} />
         </Box>
 
-        <Typography variant="h2">Vault Locked</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mx: 'auto', maxWidth: 300, mt: 1 }}>
           {msg}
         </Typography>

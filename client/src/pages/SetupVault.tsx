@@ -75,7 +75,7 @@ export function SetupVaultScreen() {
           width: 64, height: 64, borderRadius: 0, display: 'flex',
           alignItems: 'center',
           justifyContent: 'center', mx: 'auto',
-          bgcolor: '#EBEFFF', color: 'primary.main', mb: 2
+          bgcolor: '#E2FAFB', color: 'primary.dark', mb: 2
         }}>
           <KeyRound size={30} />
         </Box>

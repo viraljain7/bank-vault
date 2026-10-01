@@ -24,8 +24,8 @@ function BrowserOnlyNote() {
         gap: 0.75,
         px: 1.25,
         py: 1,
-        bgcolor: '#E6F4F2',
-        color: '#0F766E',
+        bgcolor: '#E8F5EC',
+        color: '#157F3C',
         typography: 'body2',
       }}
     >
